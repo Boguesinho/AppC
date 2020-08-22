@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sctproject/customNavigationBar.dart';
 
 class Configuracion extends StatelessWidget {
   const Configuracion({Key key}) : super(key: key);

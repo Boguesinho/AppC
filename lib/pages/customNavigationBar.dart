@@ -1,11 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sctproject/pageBusquedaSala.dart';
-import 'package:sctproject/pageConfiguracion.dart';
-import 'package:sctproject/pageEquipo.dart';
-import 'package:sctproject/pagePerfilUsuario.dart';
-import 'package:sctproject/pageTimerCubo.dart';
+import 'package:sctproject/pages/pageBusquedaSala.dart';
+import 'package:sctproject/pages/pageConfiguracion.dart';
+import 'package:sctproject/pages/pageEquipo.dart';
+import 'package:sctproject/pages/pagePerfilUsuario.dart';
+import 'package:sctproject/pages/pageTimerCubo.dart';
 
 class CustomNavBar extends StatefulWidget {
   @override
@@ -75,7 +75,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
             _mostrarPagina = _elegirPagina(index);
           });
         },
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: Duration(milliseconds: 500),
         animationCurve: Curves.ease,
       ),
       body: Container(
