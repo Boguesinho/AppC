@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:sctproject/customNavigationBar.dart';
 
 class BusquedaSala extends StatelessWidget {
   const BusquedaSala({Key key}) : super(key: key);
+
+  final String categoriaSala = "Megaminx";
+  final String anfitrionSala = "Feliks Zemdegs";
+  final String idiomaSala = "Español";
+  final String tituloSala = "Jarocholos Team";
+  final String descripcionSala =
+      "Sala creada para echar las retas con los del team pai";
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +39,7 @@ class BusquedaSala extends StatelessWidget {
                   height: 20.0,
                 ),
                 Text(
-                  "Creación / Búsqueda \nde Salas",
+                  "Únete o crea una sala para competir!",
                   style: Theme.of(context)
                       .textTheme
                       .headline4
@@ -69,7 +75,7 @@ class BusquedaSala extends StatelessWidget {
       child: InkWell(
         onTap: () => print("CONTENEDOR PRESIONADO"),
         child: Container(
-          padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(3.5),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
@@ -83,31 +89,46 @@ class BusquedaSala extends StatelessWidget {
               ]),
           child: Column(children: <Widget>[
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Image(
                   image: AssetImage('assets/images/3x3.png'),
-                  height: 34,
-                  width: 34,
+                  height: 32,
+                  width: 32,
                 ),
                 Text(
-                  'Megaminx',
+                  '$categoriaSala',
                   style: TextStyle(color: Color(0xff505050)),
                   //textAlign: TextAlign.end,
-                  textScaleFactor: 1.5,
+                  textScaleFactor: 1.4,
                 ),
               ],
             ),
-            Divider(),
+            Divider(
+              height: 6,
+            ),
             Row(
               children: <Widget>[
                 Text(
-                  '',
+                  'Anfitrión: ',
                   style: TextStyle(color: Color(0xff505050)),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 2,
+                  textScaleFactor: 1,
+                ),
+                Text(
+                  '$anfitrionSala',
+                  style: TextStyle(color: Colors.grey),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1,
+                  maxLines: 1,
                 ),
               ],
+            ),
+            Divider(
+              height: 95,
+            ),
+            Divider(
+              height: 4,
             ),
           ]),
         ),

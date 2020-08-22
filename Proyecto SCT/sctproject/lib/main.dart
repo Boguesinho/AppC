@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sctproject/customNavigationBar.dart';
+import 'package:sctproject/pages/customNavigationBar.dart';
 
 void main() => runApp(MyApp());
 
