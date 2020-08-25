@@ -13,7 +13,7 @@ class CustomNavBar extends StatefulWidget {
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  final colorBase = Color(0xff333437); //Color con opacidad 100
+  //Color con opacidad 100
   int indicePagina = 2;
 
   final BusquedaSala _busquedaSala = new BusquedaSala();
@@ -56,7 +56,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        color: colorBase,
+        color: Theme.of(context).primaryColor,
         height: 50,
         index: indicePagina,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

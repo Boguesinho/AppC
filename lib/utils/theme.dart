@@ -30,17 +30,21 @@ ThemeData basicTheme() {
   return base.copyWith(
       textTheme: _basicTextTheme(base.textTheme),
       //textTheme: Typography().white,
-      primaryColor: Colors.grey,
+
+      //Primer gradiente
+      primaryColor: Color(0xff333437),
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
-      scaffoldBackgroundColor: Color(0xffAAC7EC),
+      scaffoldBackgroundColor: Colors.cyan,
       accentColor: Colors.blueAccent,
       iconTheme: IconThemeData(
         color: Colors.white,
         size: 20.0,
       ),
       buttonColor: Color(0xe6ADADAD),
-      backgroundColor: Colors.white,
+
+      //Segundo gradiente
+      backgroundColor: Colors.green,
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: Color(0xffce107c),
         unselectedLabelColor: Colors.grey,
