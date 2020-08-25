@@ -13,10 +13,7 @@ class CustomNavBar extends StatefulWidget {
 }
 
 class _CustomNavBarState extends State<CustomNavBar> {
-  final colorBase = Color(0xFFEBEBEB); //Color con opacidad 100
-  final colorIconos = Color(0xFF333437);
-  final colorVentana = Color(0xFFADADAD);
-
+  final colorBase = Color(0xff333437); //Color con opacidad 100
   int indicePagina = 2;
 
   final BusquedaSala _busquedaSala = new BusquedaSala();
@@ -62,13 +59,17 @@ class _CustomNavBarState extends State<CustomNavBar> {
         color: colorBase,
         height: 50,
         index: indicePagina,
-        backgroundColor: colorVentana,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: <Widget>[
-          Icon(Icons.person, size: 25, color: colorIconos),
-          Icon(Icons.people, size: 25, color: colorIconos),
-          Icon(Icons.timer, size: 25, color: colorIconos),
-          Icon(Icons.dashboard, size: 25, color: colorIconos),
-          Icon(Icons.settings, size: 25, color: colorIconos),
+          Icon(Icons.person,
+              size: 25, color: Theme.of(context).iconTheme.color),
+          Icon(Icons.people,
+              size: 25, color: Theme.of(context).iconTheme.color),
+          Icon(Icons.timer, size: 25, color: Theme.of(context).iconTheme.color),
+          Icon(Icons.dashboard,
+              size: 25, color: Theme.of(context).iconTheme.color),
+          Icon(Icons.settings,
+              size: 25, color: Theme.of(context).iconTheme.color),
         ],
         onTap: (index) {
           setState(() {
