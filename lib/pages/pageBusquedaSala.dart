@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:sctproject/models/respuestaSalas_model.dart';
 
 class BusquedaSala extends StatefulWidget {
   const BusquedaSala({Key key}) : super(key: key);
@@ -12,158 +12,208 @@ class BusquedaSala extends StatefulWidget {
 }
 
 class _busquedaSalaState extends State<BusquedaSala> {
+  Future _futureSalas;
+  final scrollController = new ScrollController();
+
+  List myList;
+  ScrollController _scrollController = ScrollController();
+  int _currentMax = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    myList = List.generate(10, (i) => "Item : ${i + 1}");
+
+    _futureSalas = getSalas();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _futureSalas = _getMoreData();
+      }
+    });
+  }
+
   String categoriaSala = "Rubik's Cube";
   String anfitrionSala = "Alejandro Ortega";
   String idiomaSala = "Español";
   String tituloSala = "World Championship";
   String descripcionSala =
       "Para echar la reta con los panas cada vez que se pueda y todos los días de ser necesario pue";
+  List<Widget> listaSalas;
 
   int salaSeleccionada = -1;
   bool tieneClave = true;
 
   bool gradienteActivado = false;
 
+  double escalaHorizontal = .050;
+  double escalaVertical = .050;
+
+  _getMoreData() {
+    _futureSalas = getSalas();
+    for (int i = _currentMax; i < _currentMax + 10; i++) {
+      myList.add("Item : ${i + 1}");
+    }
+
+    _currentMax = _currentMax + 10;
+
+    _futureSalas.whenComplete(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(children: <Widget>[
-        gradienteActivado
-            ? Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).backgroundColor
-                    ])),
-              )
-            : Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-              ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: Image.asset('assets/images/speedSala.png'),
-        ),
-        new BackdropFilter(
-          filter: new ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-          child: new Container(
-            decoration: new BoxDecoration(color: Colors.white.withOpacity(0.0)),
+      body: Stack(
+        children: <Widget>[
+          gradienteActivado
+              ? Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).backgroundColor
+                      ])),
+                )
+              : Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.asset('assets/images/speedSala.png'),
           ),
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                ),
-                Divider(
-                  color: Color(0x00EBEBEB),
-                  height: 20.0,
-                ),
-                FadeInDown(
-                  duration: Duration(milliseconds: 200),
-                  delay: Duration(milliseconds: 300),
-                  child: Text(
-                    "¡Únete o crea una sala para competir!",
-                    textScaleFactor: 1.3,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4
-                        .copyWith(fontWeight: FontWeight.w900),
-                  ),
-                ),
-                Divider(
-                  color: Color(0x00123456),
-                ),
-                //Search Bar
-                Row(
-                  children: <Widget>[
-                    FadeIn(
-                      delay: Duration(milliseconds: 0),
-                      duration: Duration(milliseconds: 500),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 90,
-                        height: 45,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 3),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: TextField(
-                            decoration: InputDecoration(
-                          icon: Icon(Icons.search),
-                          hintText: "Buscar salas",
-                          border: InputBorder.none,
-                        )),
-                      ),
-                    ),
-                    Divider(
-                      indent: 2,
-                    ),
-                    FadeIn(
-                      delay: Duration(milliseconds: 400),
-                      duration: Duration(milliseconds: 900),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 340,
-                        height: 50.0,
-                        child: new RawMaterialButton(
-                          shape: new CircleBorder(),
-                          elevation: 0.0,
-                          child: Icon(
-                            Icons.tune,
-                            color: Colors.white,
-                          ),
-                          onPressed: () => print('Botoncito'),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                Divider(
-                  color: Color(0x00EBEBEB),
-                  height: 28,
-                ),
-
-                //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
-                FutureBuilder(
-                    future: getSalas(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Expanded(
-                          child: ListView.separated(
-                            separatorBuilder: (context, index) => Divider(
-                              color: Colors.transparent,
-                            ),
-                            itemCount: 200,
-                            itemBuilder: (context, index) => Padding(
-                              padding: EdgeInsets.all(3.0),
-                              child: index % 2 == 0
-                                  ? crearElementoSala(
-                                      context, index, tieneClave)
-                                  : crearElementoSala(
-                                      context, index, !tieneClave),
-                            ),
-                          ),
-                        );
-                      }
-                    }),
-
-                //BOTÓN DE AGREGAR SALA
-              ],
+          new BackdropFilter(
+            filter: new ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
+            child: new Container(
+              decoration:
+                  new BoxDecoration(color: Colors.white.withOpacity(0.0)),
             ),
           ),
-        )
-      ]),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topRight,
+                  ),
+                  Divider(
+                    color: Color(0x00EBEBEB),
+                    height: 20.0,
+                  ),
+                  FadeInDown(
+                    duration: Duration(milliseconds: 1000),
+                    delay: Duration(milliseconds: 0),
+                    child: Text(
+                      "¡Únete o crea una sala para competir!",
+                      textScaleFactor: 1.3,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontWeight: FontWeight.w900),
+                    ),
+                  ),
+                  Divider(
+                    color: Color(0x00123456),
+                  ),
+                  //Search Bar
+                  Row(
+                    children: <Widget>[
+                      FadeIn(
+                        delay: Duration(milliseconds: 0),
+                        duration: Duration(milliseconds: 500),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 90,
+                          height: 45,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 3),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(25)),
+                          child: TextField(
+                              decoration: InputDecoration(
+                            icon: Icon(Icons.search),
+                            hintText: "Buscar salas",
+                            border: InputBorder.none,
+                          )),
+                        ),
+                      ),
+                      Divider(
+                        indent: 2,
+                      ),
+                      FadeIn(
+                        delay: Duration(milliseconds: 400),
+                        duration: Duration(milliseconds: 900),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width - 340,
+                          height: 50.0,
+                          child: new RawMaterialButton(
+                            shape: new CircleBorder(),
+                            elevation: 0.0,
+                            child: Icon(
+                              Icons.tune,
+                              color: Colors.white,
+                            ),
+                            onPressed: () => print('Botoncito'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(
+                    color: Color(0x00EBEBEB),
+                    height: 28,
+                  ),
+
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 1000),
+                      curve: Curves.linear,
+                      color: Colors.amberAccent,
+                      height:
+                          MediaQuery.of(context).size.height * escalaVertical,
+                      width:
+                          MediaQuery.of(context).size.height * escalaHorizontal,
+                    ),
+                  ),
+                  Divider(
+                    color: Color(0x00EBEBEB),
+                    height: 28,
+                  ),
+
+                  //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
+                  Expanded(
+                    child: FutureBuilder(
+                        future: _futureSalas,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container(
+                              alignment: Alignment.topCenter,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CupertinoActivityIndicator(),
+                                ],
+                              ),
+                            );
+                          } else {
+                            return mostrarSalas();
+                          }
+                        }),
+                  ),
+                  //BOTÓN DE AGREGAR SALA
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         elevation: 15,
         backgroundColor: Theme.of(context).buttonColor,
@@ -171,9 +221,55 @@ class _busquedaSalaState extends State<BusquedaSala> {
           Icons.add,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          setState(() {
+            escalaHorizontal == .050
+                ? escalaHorizontal = .9
+                : escalaHorizontal = .050;
+            escalaVertical == .050
+                ? escalaVertical = .125
+                : escalaVertical = .050;
+          });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
+    );
+  }
+
+  Widget mostrarSalas() {
+    return ListView.builder(
+      shrinkWrap: true,
+      controller: _scrollController,
+      itemBuilder: (context, index) {
+        if (index == myList.length) {
+          return Container(
+            height: 50,
+            color: Colors.transparent,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Divider(
+                  height: 10,
+                  color: Colors.transparent,
+                ),
+                CupertinoActivityIndicator(),
+              ],
+            ),
+          );
+        }
+        return Container(
+          color: Colors.transparent,
+          child: Column(
+            children: [
+              crearElementoSala(context, index, index % 2 == 0 ? true : false),
+              Divider(
+                color: Colors.transparent,
+              ),
+            ],
+          ),
+        );
+      },
+      itemCount: myList.length + 1,
     );
   }
 
@@ -200,7 +296,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
         data: temaElementoSala,
         child: ExpansionTile(
           title: Text(
-            '$tituloSala',
+            '$tituloSala $indiceTarjeta',
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -423,8 +519,8 @@ Future<int> getSalas() async {
   try {
     var uri = new Uri.https('dog.ceo', 'https//api/users?page=2');
     final resp = await http.get(uri);
-    return 1;
+    return await Future.delayed(const Duration(milliseconds: 500));
   } catch (Exception) {
-    return 0;
+    return await Future.delayed(const Duration(milliseconds: 1000));
   }
 }
