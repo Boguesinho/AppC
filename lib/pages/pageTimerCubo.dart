@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-
 class ElapsedTime {
   final int hundreds;
   final int seconds;
@@ -15,16 +14,17 @@ class ElapsedTime {
 }
 
 class Dependencies {
-
-  final List<ValueChanged<ElapsedTime>> timerListeners = <ValueChanged<ElapsedTime>>[];
-  final TextStyle textStyle = const TextStyle(fontSize: 70.0, fontFamily: "Bebas Neue");
+  final List<ValueChanged<ElapsedTime>> timerListeners =
+      <ValueChanged<ElapsedTime>>[];
+  final TextStyle textStyle =
+      const TextStyle(fontSize: 70.0, fontFamily: "Bebas Neue");
   final Stopwatch stopwatch = new Stopwatch();
   final int timerMillisecondsRefreshRate = 30;
 }
 
 class TimerCubo extends StatefulWidget {
-    @override
-    TimerPageState createState() => new TimerPageState();
+  @override
+  TimerPageState createState() => new TimerPageState();
 }
 
 class TimerPageState extends State<TimerCubo> {
@@ -53,10 +53,10 @@ class TimerPageState extends State<TimerCubo> {
   }
 
   Widget buildFloatingButton(String text, VoidCallback callback) {
-    TextStyle roundTextStyle = const TextStyle(fontSize: 16.0, color: Colors.white);
+    TextStyle roundTextStyle =
+        const TextStyle(fontSize: 16.0, color: Colors.white);
     return new FloatingActionButton(
-      child: new Text(text, style: roundTextStyle),
-      onPressed: callback);
+        child: new Text(text, style: roundTextStyle), onPressed: callback);
   }
 
   @override
@@ -74,8 +74,12 @@ class TimerPageState extends State<TimerCubo> {
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                buildFloatingButton(dependencies.stopwatch.isRunning ? "lap" : "reset", leftButtonPressed),
-                buildFloatingButton(dependencies.stopwatch.isRunning ? "stop" : "start", rightButtonPressed),
+                buildFloatingButton(
+                    dependencies.stopwatch.isRunning ? "lap" : "reset",
+                    leftButtonPressed),
+                buildFloatingButton(
+                    dependencies.stopwatch.isRunning ? "stop" : "start",
+                    rightButtonPressed),
               ],
             ),
           ),
@@ -89,7 +93,8 @@ class TimerText extends StatefulWidget {
   TimerText({this.dependencies});
   final Dependencies dependencies;
 
-  TimerTextState createState() => new TimerTextState(dependencies: dependencies);
+  TimerTextState createState() =>
+      new TimerTextState(dependencies: dependencies);
 }
 
 class TimerTextState extends State<TimerText> {
@@ -100,7 +105,9 @@ class TimerTextState extends State<TimerText> {
 
   @override
   void initState() {
-    timer = new Timer.periodic(new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate), callback);
+    timer = new Timer.periodic(
+        new Duration(milliseconds: dependencies.timerMillisecondsRefreshRate),
+        callback);
     super.initState();
   }
 
@@ -115,7 +122,7 @@ class TimerTextState extends State<TimerText> {
     if (milliseconds != dependencies.stopwatch.elapsedMilliseconds) {
       milliseconds = dependencies.stopwatch.elapsedMilliseconds;
       final int hundreds = (milliseconds / 10).truncate();
-      final int seconds = (hundreds / 60).truncate();
+      final int seconds = (hundreds / 100).truncate();
       final int minutes = (seconds / 60).truncate();
       final ElapsedTime elapsedTime = new ElapsedTime(
         hundreds: hundreds,
@@ -133,18 +140,18 @@ class TimerTextState extends State<TimerText> {
     return new Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-          new RepaintBoundary(
-            child: new SizedBox(
-              height: 72.0,
-              child: new MinutesAndSeconds(dependencies: dependencies),
-            ),
+        new RepaintBoundary(
+          child: new SizedBox(
+            height: 72.0,
+            child: new MinutesAndSeconds(dependencies: dependencies),
           ),
-          new RepaintBoundary(
-            child: new SizedBox(
-              height: 72.0,
-              child: new Hundreds(dependencies: dependencies),
-            ),
+        ),
+        new RepaintBoundary(
+          child: new SizedBox(
+            height: 72.0,
+            child: new Hundreds(dependencies: dependencies),
           ),
+        ),
       ],
     );
   }
@@ -154,7 +161,8 @@ class MinutesAndSeconds extends StatefulWidget {
   MinutesAndSeconds({this.dependencies});
   final Dependencies dependencies;
 
-  MinutesAndSecondsState createState() => new MinutesAndSecondsState(dependencies: dependencies);
+  MinutesAndSecondsState createState() =>
+      new MinutesAndSecondsState(dependencies: dependencies);
 }
 
 class MinutesAndSecondsState extends State<MinutesAndSeconds> {
