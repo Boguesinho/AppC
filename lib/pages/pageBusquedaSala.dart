@@ -3,6 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sctproject/pages/pageCreacionSala.dart';
 
 class BusquedaSala extends StatefulWidget {
   const BusquedaSala({Key key}) : super(key: key);
@@ -14,6 +15,7 @@ class BusquedaSala extends StatefulWidget {
 class _busquedaSalaState extends State<BusquedaSala> {
   Future _futureSalas;
   final scrollController = new ScrollController();
+  final sc = new ScrollController();
 
   List myList;
   ScrollController _scrollController = ScrollController();
@@ -50,6 +52,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
   double busquedaEscalaHorizontal = 45;
   double busquedaEscalaVertical = 45;
   bool opcionesBusquedaMaximizado = false;
+  bool agregandoSala = false;
 
   _getMoreData() {
     _futureSalas = getSalas();
@@ -196,7 +199,6 @@ class _busquedaSalaState extends State<BusquedaSala> {
                           }
                         }),
                   ),
-                  //BOTÓN DE AGREGAR SALA
                 ],
               ),
             ),
@@ -211,6 +213,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
           color: Colors.black,
         ),
         onPressed: () {
+          _showOverlay(context);
           print("Agregar presionado");
         },
       ),
@@ -601,6 +604,10 @@ class _busquedaSalaState extends State<BusquedaSala> {
         ),
       ),
     );
+  }
+
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(TutorialOverlay());
   }
 }
 

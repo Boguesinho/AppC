@@ -17,7 +17,7 @@ class Dependencies {
   final List<ValueChanged<ElapsedTime>> timerListeners =
       <ValueChanged<ElapsedTime>>[];
   final TextStyle textStyle =
-      const TextStyle(fontSize: 70.0, fontFamily: "Bebas Neue");
+      const TextStyle(fontSize: 70.0, fontFamily: "roboto");
   final Stopwatch stopwatch = new Stopwatch();
   final int timerMillisecondsRefreshRate = 30;
 }
@@ -29,6 +29,8 @@ class TimerCubo extends StatefulWidget {
 
 class TimerPageState extends State<TimerCubo> {
   final Dependencies dependencies = new Dependencies();
+  bool tiempoComenzado = false;
+  bool tiempoDetenido = false;
 
   void leftButtonPressed() {
     setState(() {
@@ -44,10 +46,10 @@ class TimerPageState extends State<TimerCubo> {
     setState(() {
       if (dependencies.stopwatch.isRunning) {
         dependencies.stopwatch.stop();
-        print("stop tiempo");
+        print("Tiempo Detenido");
       } else {
         dependencies.stopwatch.start();
-        print("coriendo tiempo");
+        print("Tiempo Corriendo");
       }
     });
   }
@@ -61,30 +63,38 @@ class TimerPageState extends State<TimerCubo> {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        new Expanded(
-          child: new TimerText(dependencies: dependencies),
-        ),
-        new Expanded(
-          flex: 0,
-          child: new Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                buildFloatingButton(
-                    dependencies.stopwatch.isRunning ? "lap" : "reset",
-                    leftButtonPressed),
-                buildFloatingButton(
-                    dependencies.stopwatch.isRunning ? "stop" : "start",
-                    rightButtonPressed),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return Scaffold(
+      body: Material(
+          color: Colors.transparent,
+          child: InkWell(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  new Expanded(
+                    child: new TimerText(dependencies: dependencies),
+                  ),
+                  new Expanded(
+                    flex: 0,
+                    child: new Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    ),
+                  ),
+                ],
+              ),
+              onTap: () {
+                if (!tiempoComenzado) {
+                  rightButtonPressed();
+                  tiempoComenzado = true;
+                }
+                if (!tiempoDetenido && tiempoComenzado) {
+                  rightButtonPressed();
+                  tiempoDetenido = true;
+                }
+                if (tiempoDetenido && tiempoComenzado) {
+                  leftButtonPressed();
+                  rightButtonPressed();
+                }
+              })),
     );
   }
 }
@@ -228,3 +238,23 @@ class HundredsState extends State<Hundreds> {
     return new Text(hundredsStr, style: dependencies.textStyle);
   }
 }
+
+/* BOTONES INFERIORES
+
+child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          buildFloatingButton(
+                              dependencies.stopwatch.isRunning
+                                  ? "lap"
+                                  : "reset",
+                              leftButtonPressed),
+                          buildFloatingButton(
+                              dependencies.stopwatch.isRunning
+                                  ? "stop"
+                                  : "start",
+                              rightButtonPressed),
+                        ],
+                      ),
+
+                      */

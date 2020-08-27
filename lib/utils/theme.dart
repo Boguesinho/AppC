@@ -46,7 +46,7 @@ ThemeData basicTheme() {
       buttonColor: Color(0xe6ADADAD),
 
       //Segundo gradiente
-      backgroundColor: Color(0xf2ffffff),
+      backgroundColor: Color(0xffffffff),
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
