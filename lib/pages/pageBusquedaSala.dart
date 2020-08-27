@@ -47,8 +47,9 @@ class _busquedaSalaState extends State<BusquedaSala> {
 
   bool gradienteActivado = false;
 
-  double escalaHorizontal = .050;
-  double escalaVertical = .050;
+  double busquedaEscalaHorizontal = 45;
+  double busquedaEscalaVertical = 45;
+  bool opcionesBusquedaMaximizado = false;
 
   _getMoreData() {
     _futureSalas = getSalas();
@@ -94,7 +95,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -103,7 +104,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 20.0,
+                    height: 25.0,
                   ),
                   FadeInDown(
                     duration: Duration(milliseconds: 1000),
@@ -122,18 +123,25 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   ),
                   //Search Bar
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       FadeIn(
                         delay: Duration(milliseconds: 0),
                         duration: Duration(milliseconds: 500),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 90,
-                          height: 45,
+                        child: AnimatedContainer(
+                          alignment: Alignment.topLeft,
+                          duration: Duration(milliseconds: 250),
+                          curve: Curves.linear,
+                          width: opcionesBusquedaMaximizado
+                              ? busquedaEscalaHorizontal =
+                                  busquedaEscalaHorizontal = .1
+                              : MediaQuery.of(context).size.width - 88,
+                          height: opcionesBusquedaMaximizado ? .1 : 45,
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25)),
+                              color: Theme.of(context).backgroundColor,
+                              borderRadius: BorderRadius.circular(15)),
                           child: TextField(
                               decoration: InputDecoration(
                             icon: Icon(Icons.search),
@@ -143,47 +151,28 @@ class _busquedaSalaState extends State<BusquedaSala> {
                         ),
                       ),
                       Divider(
-                        indent: 2,
+                        indent: 5,
                       ),
                       FadeIn(
-                        delay: Duration(milliseconds: 400),
-                        duration: Duration(milliseconds: 900),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width - 340,
-                          height: 50.0,
-                          child: new RawMaterialButton(
-                            shape: new CircleBorder(),
-                            elevation: 0.0,
-                            child: Icon(
-                              Icons.tune,
-                              color: Colors.white,
-                            ),
-                            onPressed: () => print('Botoncito'),
-                          ),
+                        delay: Duration(milliseconds: 0),
+                        duration: Duration(milliseconds: 500),
+                        child: AnimatedContainer(
+                          alignment: Alignment.topRight,
+                          duration: Duration(milliseconds: 250),
+                          curve: Curves.linear,
+                          height: busquedaEscalaVertical,
+                          width: opcionesBusquedaMaximizado
+                              ? MediaQuery.of(context).size.width - 42
+                              : 45,
+                          color: Colors.transparent,
+                          child: mostrarBusquedaAvanzada(),
                         ),
                       ),
                     ],
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 28,
-                  ),
-
-                  Container(
-                    alignment: Alignment.topRight,
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 1000),
-                      curve: Curves.linear,
-                      color: Colors.amberAccent,
-                      height:
-                          MediaQuery.of(context).size.height * escalaVertical,
-                      width:
-                          MediaQuery.of(context).size.height * escalaHorizontal,
-                    ),
-                  ),
-                  Divider(
-                    color: Color(0x00EBEBEB),
-                    height: 28,
+                    height: 45,
                   ),
 
                   //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
@@ -222,19 +211,117 @@ class _busquedaSalaState extends State<BusquedaSala> {
           color: Colors.black,
         ),
         onPressed: () {
-          setState(() {
-            escalaHorizontal == .050
-                ? escalaHorizontal = .9
-                : escalaHorizontal = .050;
-            escalaVertical == .050
-                ? escalaVertical = .125
-                : escalaVertical = .050;
-          });
+          print("Agregar presionado");
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
     );
   }
+
+  Widget mostrarBusquedaAvanzada() {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          if (!opcionesBusquedaMaximizado) {
+            setState(() {
+              busquedaEscalaHorizontal == 45
+                  ? busquedaEscalaHorizontal =
+                      MediaQuery.of(context).size.width - 90
+                  : busquedaEscalaHorizontal = 45;
+
+              busquedaEscalaVertical == 45
+                  ? busquedaEscalaVertical = 155
+                  : busquedaEscalaVertical = 45;
+
+              opcionesBusquedaMaximizado
+                  ? opcionesBusquedaMaximizado = false
+                  : opcionesBusquedaMaximizado = true;
+            });
+          }
+        },
+        child: Container(
+          padding: opcionesBusquedaMaximizado
+              ? EdgeInsets.symmetric(horizontal: 0, vertical: 0)
+              : EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+          decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(15)),
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  opcionesBusquedaMaximizado
+                      ? Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                busquedaEscalaHorizontal == 45
+                                    ? busquedaEscalaHorizontal =
+                                        MediaQuery.of(context).size.width - 90
+                                    : busquedaEscalaHorizontal = 45;
+
+                                busquedaEscalaVertical == 45
+                                    ? busquedaEscalaVertical = 130
+                                    : busquedaEscalaVertical = 45;
+
+                                opcionesBusquedaMaximizado
+                                    ? opcionesBusquedaMaximizado = false
+                                    : opcionesBusquedaMaximizado = true;
+                              });
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
+                                  borderRadius: BorderRadius.circular(16)),
+                              child: FadeIn(
+                                delay: Duration(milliseconds: 100),
+                                duration: Duration(milliseconds: 400),
+                                child: Icon(
+                                  Icons.tune,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : Container(
+                          alignment: Alignment.topCenter,
+                          child: FadeIn(
+                            delay: Duration(milliseconds: 100),
+                            duration: Duration(milliseconds: 400),
+                            child: Icon(
+                              Icons.tune,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
+                ],
+              ),
+
+              //Opciones avanzadas maximizado
+              opcionesBusquedaMaximizado
+                  ? Row(
+                      children: [
+                        Text("Hola"),
+                      ],
+                    )
+                  : Container(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //ListView con las tarjetas de las salas
 
   Widget mostrarSalas() {
     return ListView.builder(
@@ -264,6 +351,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               crearElementoSala(context, index, index % 2 == 0 ? true : false),
               Divider(
                 color: Colors.transparent,
+                height: 30,
               ),
             ],
           ),
@@ -282,14 +370,15 @@ class _busquedaSalaState extends State<BusquedaSala> {
     return Container(
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
-          color: Color(0xd9EBEBEB), //Fondo Tarjeta con transparencia
+          color: Theme.of(context)
+              .backgroundColor, //Fondo Tarjeta con transparencia
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 17),
               blurRadius: 30,
               spreadRadius: -23,
-              color: Color(0xff505050),
+              color: Colors.cyanAccent,
             )
           ]),
       child: Theme(

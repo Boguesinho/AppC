@@ -56,7 +56,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).tabBarTheme.labelColor,
         height: 50,
         index: indicePagina,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -80,7 +80,7 @@ class _CustomNavBarState extends State<CustomNavBar> {
         animationCurve: Curves.ease,
       ),
       body: Container(
-        color: Colors.black,
+        color: Colors.cyan,
         child: Center(
           child: _mostrarPagina,
         ),

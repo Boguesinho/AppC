@@ -31,22 +31,24 @@ ThemeData basicTheme() {
       textTheme: _basicTextTheme(base.textTheme),
       //textTheme: Typography().white,
 
+      //GRIS OSCURO: 0xff333437
+
       //Primer gradiente
-      primaryColor: Color(0xff333437),
+      primaryColor: Colors.blue,
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
-      scaffoldBackgroundColor: Colors.cyan,
+      scaffoldBackgroundColor: Color(0xf2D0D0D0),
       accentColor: Colors.blueAccent,
       iconTheme: IconThemeData(
-        color: Colors.white,
+        color: Color(0xff333437),
         size: 20.0,
       ),
       buttonColor: Color(0xe6ADADAD),
 
       //Segundo gradiente
-      backgroundColor: Colors.green,
+      backgroundColor: Color(0xf2ffffff),
       tabBarTheme: base.tabBarTheme.copyWith(
-        labelColor: Color(0xffce107c),
+        labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
       ));
 }
