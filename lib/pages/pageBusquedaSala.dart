@@ -47,7 +47,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
   int salaSeleccionada = -1;
   bool tieneClave = true;
 
-  bool gradienteActivado = false;
+  bool gradienteActivado = true;
 
   double busquedaEscalaHorizontal = 45;
   double busquedaEscalaVertical = 45;
@@ -133,8 +133,8 @@ class _busquedaSalaState extends State<BusquedaSala> {
                         duration: Duration(milliseconds: 500),
                         child: AnimatedContainer(
                           alignment: Alignment.topLeft,
-                          duration: Duration(milliseconds: 250),
-                          curve: Curves.linear,
+                          duration: Duration(milliseconds: 350),
+                          curve: Curves.ease,
                           width: opcionesBusquedaMaximizado
                               ? busquedaEscalaHorizontal =
                                   busquedaEscalaHorizontal = .1
@@ -143,7 +143,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                           decoration: BoxDecoration(
-                              color: Theme.of(context).backgroundColor,
+                              color: Theme.of(context).tabBarTheme.labelColor,
                               borderRadius: BorderRadius.circular(15)),
                           child: TextField(
                               decoration: InputDecoration(
@@ -161,8 +161,8 @@ class _busquedaSalaState extends State<BusquedaSala> {
                         duration: Duration(milliseconds: 500),
                         child: AnimatedContainer(
                           alignment: Alignment.topRight,
-                          duration: Duration(milliseconds: 250),
-                          curve: Curves.linear,
+                          duration: Duration(milliseconds: 350),
+                          curve: Curves.ease,
                           height: busquedaEscalaVertical,
                           width: opcionesBusquedaMaximizado
                               ? MediaQuery.of(context).size.width - 42
@@ -248,7 +248,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               ? EdgeInsets.symmetric(horizontal: 0, vertical: 0)
               : EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).tabBarTheme.labelColor,
               borderRadius: BorderRadius.circular(15)),
           alignment: Alignment.topCenter,
           child: Column(
@@ -312,9 +312,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               //Opciones avanzadas maximizado
               opcionesBusquedaMaximizado
                   ? Row(
-                      children: [
-                        Text("Hola"),
-                      ],
+                      children: [],
                     )
                   : Container(),
             ],
@@ -374,14 +372,15 @@ class _busquedaSalaState extends State<BusquedaSala> {
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
           color: Theme.of(context)
-              .backgroundColor, //Fondo Tarjeta con transparencia
+              .tabBarTheme
+              .labelColor, //Fondo Tarjeta con transparencia
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 17),
               blurRadius: 30,
               spreadRadius: -23,
-              color: Colors.cyanAccent,
+              color: Colors.black,
             )
           ]),
       child: Theme(
@@ -398,27 +397,25 @@ class _busquedaSalaState extends State<BusquedaSala> {
           ),
           childrenPadding: EdgeInsets.all(2),
           leading: Container(
-            width: MediaQuery.of(context).size.width - 345,
+            width: 50,
             child: Row(
               children: [
                 tieneClave == true
                     ? Icon(
                         Icons.lock,
                         color: Color(0xffAD0000),
-                        size: MediaQuery.of(context).size.width - 373.5,
+                        size: 24,
                       )
                     : Icon(
                         Icons.lock_open,
                         color: Color(0xff11700E),
-                        size: MediaQuery.of(context).size.width - 373.5,
+                        size: 24,
                       ),
-                Container(
-                  width: MediaQuery.of(context).size.width - 385,
-                ),
+                Divider(indent: 5),
                 Image(
                   image: AssetImage('assets/images/3x3.png'),
-                  height: MediaQuery.of(context).size.width - 372,
-                  width: MediaQuery.of(context).size.width - 372,
+                  height: 21,
+                  width: 21,
                 ),
               ],
             ),
@@ -549,20 +546,24 @@ class _busquedaSalaState extends State<BusquedaSala> {
             Container(
               child: tieneClave == true
                   ? Container(
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width / 1.5,
                       child: FadeIn(
                         delay: Duration(milliseconds: 450),
                         duration: Duration(milliseconds: 600),
                         child: Container(
-                          width: MediaQuery.of(context).size.width - 130,
+                          alignment: Alignment.centerLeft,
                           height: 35,
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: Color(0x1a7d7d7d),
                               borderRadius: BorderRadius.circular(30)),
                           child: TextField(
+                              textAlign: TextAlign.left,
                               obscureText: true,
                               decoration: InputDecoration(
+                                alignLabelWithHint: true,
                                 icon: Icon(Icons.vpn_key),
                                 hintText: "Escribir contraseña",
                                 border: InputBorder.none,
@@ -580,16 +581,18 @@ class _busquedaSalaState extends State<BusquedaSala> {
               child: FadeIn(
                 delay: Duration(milliseconds: 600),
                 duration: Duration(milliseconds: 600),
-                child: FlatButton(
+                child: OutlineButton(
                   padding: const EdgeInsets.symmetric(horizontal: 110),
-                  color: Color(0x1a7d7d7d),
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0)),
+                  color: Colors.transparent,
                   child: Text(
-                    "Entrar",
+                    "ENTRAR",
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
-                        .copyWith(fontWeight: FontWeight.w900),
-                    textScaleFactor: 1.1,
+                        .headline3
+                        .copyWith(fontWeight: FontWeight.w700),
+                    textScaleFactor: .75,
                   ),
                   onPressed: () {
                     print('Tarjeta número $indiceTarjeta seleccionada');
@@ -607,7 +610,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
   }
 
   void _showOverlay(BuildContext context) {
-    Navigator.of(context).push(TutorialOverlay());
+    Navigator.of(context).push(CreacionSala());
   }
 }
 

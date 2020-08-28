@@ -34,7 +34,7 @@ ThemeData basicTheme() {
       //GRIS OSCURO: 0xff333437
 
       //Primer gradiente
-      primaryColor: Colors.blue,
+      primaryColor: Color(0xffA1C7EF),
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
       scaffoldBackgroundColor: Color(0xf2D0D0D0),
@@ -46,7 +46,7 @@ ThemeData basicTheme() {
       buttonColor: Color(0xe6ADADAD),
 
       //Segundo gradiente
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: Color(0xff2D71B8),
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey,
