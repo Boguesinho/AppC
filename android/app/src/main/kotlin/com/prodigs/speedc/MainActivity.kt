@@ -1,4 +1,4 @@
-package com.example.sctproject
+package com.prodigs.speedc
 
 import io.flutter.embedding.android.FlutterActivity
 
