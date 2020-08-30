@@ -23,7 +23,8 @@ ThemeData basicTheme() {
         caption: base.caption.copyWith(
           color: Color(0xFFCCC5AF),
         ),
-        bodyText2: base.bodyText2.copyWith(color: Colors.black));
+        bodyText2: base.bodyText2.copyWith(color: Colors.black),
+        bodyText1: base.bodyText2.copyWith(color: Color(0xff21649B)));
   }
 
   final ThemeData base = ThemeData.light();
@@ -34,7 +35,7 @@ ThemeData basicTheme() {
       //GRIS OSCURO: 0xff333437
 
       //Primer gradiente
-      primaryColor: Color(0xffA1C7EF),
+      primaryColor: Color(0xffC4D5EE),
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
       scaffoldBackgroundColor: Color(0xf2D0D0D0),

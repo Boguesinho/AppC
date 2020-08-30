@@ -53,7 +53,6 @@ class _CustomNavBarState extends State<CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         color: Theme.of(context).tabBarTheme.labelColor,

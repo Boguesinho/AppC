@@ -238,14 +238,17 @@ class CreacionSala extends ModalRoute<void> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
-                                  "Contraseña",
-                                  textAlign: TextAlign.right,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline4
-                                      .copyWith(fontWeight: FontWeight.w500),
+                                Container(
+                                  width: 128,
+                                  child: Text(
+                                    "Contraseña",
+                                    textAlign: TextAlign.right,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline4
+                                        .copyWith(fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                                 Switch(
                                   value: conClave,
@@ -408,8 +411,6 @@ class CreacionSala extends ModalRoute<void> {
   }
 
   String obtenerCategoria(int numeroCategoria) {
-    print(numeroCategoria);
-
     switch (numeroCategoria) {
       case 1:
         return "Rubik's Cube";

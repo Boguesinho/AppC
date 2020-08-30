@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:sctproject/pages/pageCreacionSala.dart';
 
@@ -78,8 +79,8 @@ class _busquedaSalaState extends State<BusquedaSala> {
                           begin: Alignment.topRight,
                           end: Alignment.bottomLeft,
                           colors: [
-                        Theme.of(context).primaryColor,
-                        Theme.of(context).backgroundColor
+                        Theme.of(context).backgroundColor,
+                        Theme.of(context).primaryColor
                       ])),
                 )
               : Container(
@@ -213,8 +214,8 @@ class _busquedaSalaState extends State<BusquedaSala> {
           color: Colors.black,
         ),
         onPressed: () {
+          vibrate();
           _showOverlay(context);
-          print("Agregar presionado");
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniStartFloat,
@@ -352,7 +353,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               crearElementoSala(context, index, index % 2 == 0 ? true : false),
               Divider(
                 color: Colors.transparent,
-                height: 30,
+                height: 45,
               ),
             ],
           ),
@@ -402,14 +403,14 @@ class _busquedaSalaState extends State<BusquedaSala> {
               children: [
                 tieneClave == true
                     ? Icon(
-                        Icons.lock,
+                        Icons.lock_outline,
                         color: Color(0xffAD0000),
-                        size: 24,
+                        size: 22,
                       )
                     : Icon(
                         Icons.lock_open,
                         color: Color(0xff11700E),
-                        size: 24,
+                        size: 22,
                       ),
                 Divider(indent: 5),
                 Image(
@@ -622,4 +623,8 @@ Future<int> getSalas() async {
   } catch (Exception) {
     return await Future.delayed(const Duration(milliseconds: 1000));
   }
+}
+
+Future<void> vibrate() async {
+  await SystemChannels.platform.invokeMethod<void>('HapticFeedback.vibrate');
 }
