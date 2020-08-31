@@ -20,8 +20,11 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   double recordPersonal = 3.31;
 
   int cantidadCategorias = 8;
+  int cantidadMedallas = 7;
 
   List<Widget> listaRecordsPersonales = new List<Widget>();
+  List<Widget> listaWidgetsMedallas = new List<Widget>();
+  List<Widget> listaColumnasMedallas = new List<Widget>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,52 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 height: 50,
               ),
 
-              //SEGUNDA SECCIÓN - DEBAJO DE PORTADA
+              //MEDALLAS DE USUARIO INCUBE
+
+              etiquetaMedallas(),
+              Divider(color: Colors.transparent, height: 25),
+
+              Column(
+                children: [
+                  cantidadMedallas > 0
+                      ? Column(
+                          children: mostrarMedallas(),
+                        )
+                      : Column(
+                          children: [
+                            Text(
+                              "Aún no has coseguido insignias",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3
+                                  .copyWith(fontWeight: FontWeight.w400),
+                              textAlign: TextAlign.center,
+                              textScaleFactor: .8,
+                            ),
+                            Divider(
+                              color: Colors.transparent,
+                              height: 8,
+                            ),
+                          ],
+                        ),
+                  Text(
+                    "Ver todas las insignias",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontWeight: FontWeight.w400),
+                    textAlign: TextAlign.center,
+                    textScaleFactor: .8,
+                  ),
+                ],
+              ),
+
+              Divider(
+                color: Colors.transparent,
+                height: 30,
+              ),
+
+              //LISTA DE RECORDS DE USUARIO INCUBE
               personalesIncube(),
 
               Divider(
@@ -260,7 +308,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 //RÉCORDS PERSONALES DEBAJO DE LA PORTADA
   Widget personalesIncube() {
     return Container(
-      width: MediaQuery.of(context).size.width - 10,
+      width: MediaQuery.of(context).size.width - 25,
       alignment: Alignment.center,
       child: Column(
         children: [
@@ -271,7 +319,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(6),
-                width: MediaQuery.of(context).size.width - 10,
+                width: MediaQuery.of(context).size.width - 25,
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -356,7 +404,15 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             ],
           ),
 
-          Divider(height: 8, thickness: 1),
+          Container(
+            alignment: Alignment.centerRight,
+            child: Divider(
+              height: 10,
+              thickness: 1,
+              indent: MediaQuery.of(context).size.width / 2.25,
+              endIndent: 10,
+            ),
+          ),
 
           //INFORMACIÓN DEBAJO DE ETIQUETA DE RÉCORDS PERSONALES
 
@@ -394,15 +450,18 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                                 .copyWith(fontWeight: FontWeight.w500),
                             textScaleFactor: .75,
                           ),
-                          flex: 3,
+                          flex: 8,
                         ),
                         Expanded(
+                          flex: 2,
                           child: Image(
                             image: AssetImage('assets/images/3x3.png'),
                             height: 20,
                             width: 20,
                           ),
                         ),
+                        Expanded(
+                            flex: 1, child: Container(width: 1, height: 1)),
                       ],
                     ),
                   ),
@@ -458,13 +517,143 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               ],
             ),
             Divider(
-              height: 7,
+              height: 10,
               thickness: .8,
+              indent: 15,
+              endIndent: 10,
             ),
           ],
         ));
       }
     }
     return listaRecordsPersonales;
+  }
+
+  Widget etiquetaMedallas() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(6),
+          width: MediaQuery.of(context).size.width - 10,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 15),
+                  blurRadius: 15,
+                  spreadRadius: -5,
+                  color: Theme.of(context).backgroundColor,
+                )
+              ],
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.topRight,
+                  colors: [
+                    Theme.of(context).backgroundColor,
+                    Theme.of(context).primaryColor,
+                  ]),
+              borderRadius: BorderRadius.circular(30)),
+          child: Text("Insignias Conseguidas (InCube)",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontWeight: FontWeight.w400),
+              textScaleFactor: .7,
+              textAlign: TextAlign.center),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> obtenerMedallas() {
+    int conteo = cantidadMedallas;
+
+    for (int i = 0; i < conteo; i++) {
+      if (conteo % 5 == 0) {
+        i = conteo;
+      } else {
+        conteo++;
+      }
+    }
+
+    for (int i = 0; i < conteo; i++) {
+      listaWidgetsMedallas.add(Container(
+        height: 55,
+        width: 43,
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            boxShadow: [
+              BoxShadow(
+                  blurRadius: 5.0,
+                  offset: Offset(-3, -3),
+                  color: Colors.white.withOpacity(.7)),
+              BoxShadow(
+                  blurRadius: 5.0,
+                  offset: Offset(3, 3),
+                  color: Colors.black.withOpacity(.15))
+            ]),
+        child: Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 40,
+                          offset: Offset(3, 6),
+                          color: Colors.black.withOpacity(.25))
+                    ]),
+                child: i + 1 > cantidadMedallas
+                    ? Icon(Icons.remove, color: Colors.grey)
+                    : Image(
+                        image: AssetImage('assets/images/badge.png'),
+                      ),
+              ),
+            ),
+          ),
+        ),
+      ));
+    }
+
+    return listaWidgetsMedallas;
+  }
+
+  List<Widget> mostrarMedallas() {
+    int conteo = 0;
+    listaWidgetsMedallas.clear();
+    obtenerMedallas();
+    int numMedallas = listaWidgetsMedallas.length;
+    listaColumnasMedallas.clear();
+
+    while (numMedallas > 0) {
+      listaColumnasMedallas.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (numMedallas > 0) listaWidgetsMedallas[0 + conteo],
+            if (numMedallas > 1) listaWidgetsMedallas[1 + conteo],
+            if (numMedallas > 2) listaWidgetsMedallas[2 + conteo],
+            if (numMedallas > 4) listaWidgetsMedallas[3 + conteo],
+            if (numMedallas > 4) listaWidgetsMedallas[4 + conteo],
+          ],
+        ),
+      );
+      listaColumnasMedallas.add(
+        Divider(color: Colors.transparent),
+      );
+      conteo += 5;
+      numMedallas -= 5;
+    }
+
+    return listaColumnasMedallas;
   }
 }
