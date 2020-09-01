@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sctproject/pages/pageBusquedaSala.dart';
 import 'package:sctproject/pages/pageConfiguracion.dart';
 import 'package:sctproject/pages/pageEquipo.dart';
@@ -56,19 +55,19 @@ class _CustomNavBarState extends State<CustomNavBar> {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(
         color: Theme.of(context).tabBarTheme.labelColor,
-        height: 50,
+        height: 40,
         index: indicePagina,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         items: <Widget>[
           Icon(Icons.person,
-              size: 25, color: Theme.of(context).iconTheme.color),
+              size: 20, color: Theme.of(context).iconTheme.color),
           Icon(Icons.people,
-              size: 25, color: Theme.of(context).iconTheme.color),
-          Icon(Icons.timer, size: 25, color: Theme.of(context).iconTheme.color),
+              size: 20, color: Theme.of(context).iconTheme.color),
+          Icon(Icons.timer, size: 20, color: Theme.of(context).iconTheme.color),
           Icon(Icons.dashboard,
-              size: 25, color: Theme.of(context).iconTheme.color),
+              size: 20, color: Theme.of(context).iconTheme.color),
           Icon(Icons.settings,
-              size: 25, color: Theme.of(context).iconTheme.color),
+              size: 20, color: Theme.of(context).iconTheme.color),
         ],
         onTap: (index) {
           setState(() {

@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sctproject/pages/pageConfiguracionCuenta.dart';
 
 class PerfilUsuario extends StatefulWidget {
   PerfilUsuario({Key key}) : super(key: key);
@@ -9,6 +11,8 @@ class PerfilUsuario extends StatefulWidget {
 }
 
 class _PerfilUsuarioState extends State<PerfilUsuario> {
+  Future _getMedallas;
+
   bool gradienteActivado = true;
 
   String nombreCuenta = "Max Park";
@@ -26,13 +30,22 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   List<Widget> listaWidgetsMedallas = new List<Widget>();
   List<Widget> listaColumnasMedallas = new List<Widget>();
 
+  Color colorBaseMedallas;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getMedallas = obtenerMedallas();
+  }
+
   @override
   Widget build(BuildContext context) {
+    colorBaseMedallas = Theme.of(context).primaryColor;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         child: Container(
-          color: Theme.of(context).primaryColor,
           child: Column(
             children: [
               perfilParteSuperior(),
@@ -49,9 +62,30 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
               Column(
                 children: [
                   cantidadMedallas > 0
-                      ? Column(
-                          children: mostrarMedallas(),
-                        )
+                      ? Column(children: [
+                          FutureBuilder(
+                              future: _getMedallas,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Container(
+                                    alignment: Alignment.topCenter,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        CupertinoActivityIndicator(),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  print(listaWidgetsMedallas.length);
+                                  return Column(
+                                    children: mostrarMedallas(),
+                                  );
+                                }
+                              }),
+                        ])
                       : Column(
                           children: [
                             Text(
@@ -150,7 +184,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 
         Container(
           padding: EdgeInsets.symmetric(horizontal: 22),
-          alignment: Alignment.topLeft,
+          alignment: Alignment.center,
           height: 202,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
@@ -163,14 +197,14 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                 ]),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Divider(
                 height: 57,
                 color: Colors.transparent,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
@@ -196,7 +230,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                           Row(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width / 2.1,
+                                width: MediaQuery.of(context).size.width / 2.3,
                                 height: 90,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,16 +260,55 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-                                  height: 25,
-                                  width: 35,
-                                  color: Colors.transparent,
-                                  child: Image.asset('assets/images/usa.png'))
                             ],
                           ),
                         ],
                       ),
+                    ],
+                  ),
+                  Container(width: 5, height: 1),
+                  Column(
+                    children: [
+                      Row(children: [
+                        Container(
+                          height: 32,
+                          width: 32,
+                          alignment: Alignment.bottomRight,
+                          child: OutlineButton(
+                            padding: const EdgeInsets.symmetric(horizontal: 0),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(7.0)),
+                            color: Colors.transparent,
+                            child: Icon(
+                              Icons.settings,
+                              color: Theme.of(context).iconTheme.color,
+                            ),
+                            onPressed: () {
+                              print('Botón: CONFIGURACIÓN oprimido');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ConfiguracionCuenta()),
+                              );
+                            },
+                          ),
+                        ),
+                      ]),
+                      Container(width: 5, height: 20),
+                      Row(
+                        children: [
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            child: Image.asset(
+                              'assets/images/usa.png',
+                              height: 25,
+                              width: 35,
+                              alignment: Alignment.center,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],
@@ -350,58 +423,87 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
 
           Divider(height: 7, thickness: 1, color: Colors.transparent),
           //ETIQUETA SINGLE, A05, A100
-          Row(
-            children: [
-              Expanded(
-                child: Container(),
-              ),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  color: Colors.transparent,
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Single",
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              .copyWith(fontWeight: FontWeight.w700),
-                          textScaleFactor: .75,
+          Container(
+            width: MediaQuery.of(context).size.width - 20,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "Categoría",
+                            textAlign: TextAlign.right,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(fontWeight: FontWeight.w700),
+                            textScaleFactor: .80,
+                          ),
+                          flex: 8,
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Ao5",
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              .copyWith(fontWeight: FontWeight.w700),
-                          textScaleFactor: .75,
+                        Expanded(
+                          flex: 2,
+                          child: Container(width: 20, height: 1),
                         ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: Text(
-                          "Ao100",
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline3
-                              .copyWith(fontWeight: FontWeight.w700),
-                          textScaleFactor: .75,
-                        ),
-                      ),
-                    ],
+                        Expanded(
+                            flex: 1, child: Container(width: 1, height: 1)),
+                        Expanded(
+                            flex: 1, child: Container(width: 1, height: 1)),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Single",
+                            textAlign: TextAlign.left,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(fontWeight: FontWeight.w700),
+                            textScaleFactor: .80,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Ao5",
+                            textAlign: TextAlign.left,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(fontWeight: FontWeight.w700),
+                            textScaleFactor: .80,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Ao100",
+                            textAlign: TextAlign.left,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline3
+                                .copyWith(fontWeight: FontWeight.w700),
+                            textScaleFactor: .80,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
 
           Container(
@@ -409,7 +511,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             child: Divider(
               height: 10,
               thickness: 1,
-              indent: MediaQuery.of(context).size.width / 2.25,
+              indent: 15,
               endIndent: 10,
             ),
           ),
@@ -452,6 +554,8 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                           ),
                           flex: 8,
                         ),
+                        Expanded(
+                            flex: 1, child: Container(width: 1, height: 1)),
                         Expanded(
                           flex: 2,
                           child: Image(
@@ -566,9 +670,9 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
     );
   }
 
-  List<Widget> obtenerMedallas() {
+  Future obtenerMedallas() async {
     int conteo = cantidadMedallas;
-
+    await Future.delayed(const Duration(milliseconds: 500));
     for (int i = 0; i < conteo; i++) {
       if (conteo % 5 == 0) {
         i = conteo;
@@ -582,7 +686,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
         height: 55,
         width: 43,
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             boxShadow: [
               BoxShadow(
@@ -598,8 +701,9 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
           padding: const EdgeInsets.all(3.0),
           child: Container(
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+              color: colorBaseMedallas,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(2.0),
               child: Container(
@@ -623,14 +727,10 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
         ),
       ));
     }
-
-    return listaWidgetsMedallas;
   }
 
   List<Widget> mostrarMedallas() {
     int conteo = 0;
-    listaWidgetsMedallas.clear();
-    obtenerMedallas();
     int numMedallas = listaWidgetsMedallas.length;
     listaColumnasMedallas.clear();
 
@@ -642,7 +742,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             if (numMedallas > 0) listaWidgetsMedallas[0 + conteo],
             if (numMedallas > 1) listaWidgetsMedallas[1 + conteo],
             if (numMedallas > 2) listaWidgetsMedallas[2 + conteo],
-            if (numMedallas > 4) listaWidgetsMedallas[3 + conteo],
+            if (numMedallas > 3) listaWidgetsMedallas[3 + conteo],
             if (numMedallas > 4) listaWidgetsMedallas[4 + conteo],
           ],
         ),

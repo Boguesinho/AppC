@@ -35,7 +35,7 @@ ThemeData basicTheme() {
       //GRIS OSCURO: 0xff333437
 
       //Primer gradiente
-      primaryColor: Color(0xffC4D5EE),
+      primaryColor: Color(0xffEDEDED),
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
       scaffoldBackgroundColor: Color(0xf2D0D0D0),

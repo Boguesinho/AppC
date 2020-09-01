@@ -64,6 +64,7 @@ class TimerPageState extends State<TimerCubo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Material(
           color: Colors.transparent,
           child: InkWell(

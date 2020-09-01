@@ -86,11 +86,11 @@ class CreacionSala extends ModalRoute<void> {
                             color: Theme.of(context).backgroundColor,
                             borderRadius: BorderRadius.circular(25),
                             gradient: LinearGradient(
-                                begin: Alignment.topRight,
-                                end: Alignment.bottomLeft,
+                                begin: Alignment.bottomLeft,
+                                end: Alignment.topRight,
                                 colors: [
-                                  Color(0xffA1C7EF),
-                                  Color(0xff2D71B8)
+                                  Theme.of(context).primaryColor,
+                                  Theme.of(context).backgroundColor,
                                 ])),
                         child: Column(
                           children: [
