@@ -8,17 +8,27 @@ ThemeData basicTheme() {
           fontSize: 15.0,
           color: Color(0xff333437),
         ),
+
+        //Letras en detalle, para resaltar
         headline6: base.headline6.copyWith(
-            fontFamily: 'Roboto', fontSize: 17.0, color: Color(0xff21649B)),
+            fontFamily: 'Roboto', fontSize: 17.0, color: Color(0xff2874A6)),
+
+        //Color contrario al de la base (base oscura > blanco)
         headline4: base.headline5.copyWith(
           fontFamily: 'Roboto',
-          fontSize: 24.0,
+          fontSize: 24.8,
           color: Colors.white,
         ),
         headline3: base.headline5.copyWith(
           fontFamily: 'Roboto',
           fontSize: 21.0,
-          color: Color(0xff616161),
+          color: Color(0xff333437),
+        ),
+        //LETRA DE TARJETAS
+        headline1: base.headline1.copyWith(
+          fontFamily: 'Roboto',
+          fontSize: 15.0,
+          color: Colors.black,
         ),
         caption: base.caption.copyWith(
           color: Color(0xFFCCC5AF),
@@ -35,7 +45,8 @@ ThemeData basicTheme() {
       //GRIS OSCURO: 0xff333437
 
       //Primer gradiente
-      primaryColor: Color(0xffEDEDED),
+      primaryColor: Color(0xffEAF2F8),
+
       //primaryColor: Color(0xff4829b2),
       indicatorColor: Colors.black,
       scaffoldBackgroundColor: Color(0xf2D0D0D0),
@@ -47,9 +58,9 @@ ThemeData basicTheme() {
       buttonColor: Color(0xe6ADADAD),
 
       //Segundo gradiente
-      backgroundColor: Color(0xff2D71B8),
+      backgroundColor: Color(0xff2874A6),
       tabBarTheme: base.tabBarTheme.copyWith(
-        labelColor: Colors.white,
+        labelColor: Color(0xffEBF5FB),
         unselectedLabelColor: Colors.grey,
       ));
 }

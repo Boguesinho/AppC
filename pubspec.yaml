@@ -21,7 +21,6 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  curved_navigation_bar: ^0.3.3
   carousel_slider: ^2.2.1
   flutter:
     sdk: flutter
@@ -37,6 +36,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   http: ^0.12.2
+  google_nav_bar: ^3.0.0
+  line_icons: ^0.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

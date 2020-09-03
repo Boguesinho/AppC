@@ -24,7 +24,7 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
   double recordPersonal = 3.31;
 
   int cantidadCategorias = 8;
-  int cantidadMedallas = 7;
+  int cantidadMedallas = 9;
 
   List<Widget> listaRecordsPersonales = new List<Widget>();
   List<Widget> listaWidgetsMedallas = new List<Widget>();
@@ -79,7 +79,6 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
                                     ),
                                   );
                                 } else {
-                                  print(listaWidgetsMedallas.length);
                                   return Column(
                                     children: mostrarMedallas(),
                                   );
@@ -689,12 +688,16 @@ class _PerfilUsuarioState extends State<PerfilUsuario> {
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             boxShadow: [
               BoxShadow(
-                  blurRadius: 5.0,
-                  offset: Offset(-3, -3),
-                  color: Colors.white.withOpacity(.7)),
+                  blurRadius: 0.0,
+                  offset: Offset(0, 0),
+                  color: Colors.white.withOpacity(.3)),
               BoxShadow(
                   blurRadius: 5.0,
                   offset: Offset(3, 3),
+                  color: Colors.black.withOpacity(.15)),
+              BoxShadow(
+                  blurRadius: 5.0,
+                  offset: Offset(-3, -3),
                   color: Colors.black.withOpacity(.15))
             ]),
         child: Padding(

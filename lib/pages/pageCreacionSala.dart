@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CreacionSala extends ModalRoute<void> {
   @override
-  Duration get transitionDuration => Duration(milliseconds: 450);
+  Duration get transitionDuration => Duration(milliseconds: 400);
 
   @override
   bool get opaque => false;
@@ -57,329 +57,317 @@ class CreacionSala extends ModalRoute<void> {
         builder: (context, sc) {
           return SingleChildScrollView(
             controller: sc,
-            child: GestureDetector(
-              onTap: () {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
-                }
-              },
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.linear_scale,
-                        color: Colors.white,
-                        size: 27,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * .927,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                            color: Theme.of(context).backgroundColor,
-                            borderRadius: BorderRadius.circular(25),
-                            gradient: LinearGradient(
-                                begin: Alignment.bottomLeft,
-                                end: Alignment.topRight,
-                                colors: [
-                                  Theme.of(context).primaryColor,
-                                  Theme.of(context).backgroundColor,
-                                ])),
-                        child: Column(
-                          children: [
-                            Stack(
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Divider(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          "Crear Sala",
-                                          textScaleFactor: 1.3,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w900),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        height: 55,
-                                        width: 55,
-                                        decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            borderRadius:
-                                                BorderRadius.circular(16)),
-                                        child: Icon(
-                                          Icons.clear,
-                                          color: Colors.white,
-                                          size: 26,
-                                        ),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.linear_scale,
+                      color: Colors.white,
+                      size: 27,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomLeft,
+                              end: Alignment.topRight,
+                              colors: [
+                                Theme.of(context).primaryColor,
+                                Theme.of(context).backgroundColor,
+                              ])),
+                      child: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Divider(
+                                        height: 8,
                                       ),
-                                      onTap: () {
-                                        Navigator.pop(context);
-                                      }),
-                                ),
-                              ],
-                            ),
-                            Divider(height: 45, color: Colors.transparent),
-                            Row(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      30,
-                                  child: Text(
-                                    "Nombre",
-                                    textAlign: TextAlign.right,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        .copyWith(fontWeight: FontWeight.w500),
+                                      Text(
+                                        "Crear Sala",
+                                        textScaleFactor: 1.3,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline4
+                                            .copyWith(
+                                                fontWeight: FontWeight.w900),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Divider(
-                                  indent: 40,
-                                ),
-                                Container(
-                                  height: 40,
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      30,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 0),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .tabBarTheme
-                                          .labelColor,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: TextField(
-                                      maxLines: 1,
-                                      minLines: 1,
-                                      textAlign: TextAlign.start,
-                                      decoration: InputDecoration(
-                                        hintText: "Nombre de sala",
-                                        border: InputBorder.none,
-                                      )),
-                                ),
-                              ],
-                            ),
-                            Divider(height: 45, color: Colors.transparent),
-                            Row(
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      30,
-                                  child: Text(
-                                    "Descripción",
-                                    textAlign: TextAlign.right,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                Divider(
-                                  indent: 40,
-                                ),
-                                Container(
-                                  height: 95,
-                                  width: MediaQuery.of(context).size.width / 2 -
-                                      30,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 0),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .tabBarTheme
-                                          .labelColor,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: TextField(
-                                      maxLines: 4,
-                                      minLines: 1,
-                                      keyboardType: TextInputType.text,
-                                      textAlign: TextAlign.start,
-                                      decoration: InputDecoration(
-                                        hintText: "Descripción",
-                                        border: InputBorder.none,
-                                      )),
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.transparent,
-                            ),
-                            Container(
-                              height: 40,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Divider(
-                                thickness: 1.6,
+                                ],
                               ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 128,
-                                  child: Text(
-                                    "Contraseña",
-                                    textAlign: TextAlign.right,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                Switch(
-                                  value: conClave,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      conClave = value;
-                                      anchoCampoClave == 0
-                                          ? anchoCampoClave =
-                                              MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2 -
-                                                  30
-                                          : anchoCampoClave = 0;
-                                    });
-                                    changedExternalState();
-                                  },
-                                ),
-                                AnimatedContainer(
-                                  duration: Duration(milliseconds: 350),
-                                  curve: Curves.ease,
-                                  height: 40,
-                                  width: 1.0 * anchoCampoClave,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 0),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .tabBarTheme
-                                          .labelColor,
-                                      borderRadius: BorderRadius.circular(15)),
-                                  child: TextField(
-                                      maxLines: 1,
-                                      minLines: 1,
-                                      obscureText: true,
-                                      keyboardType: TextInputType.text,
-                                      textAlign: TextAlign.start,
-                                      decoration: InputDecoration(
-                                        hintText: "Contraseña",
-                                        border: InputBorder.none,
-                                      )),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              height: 40,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Divider(
-                                thickness: 1.6,
-                              ),
-                            ),
-                            Divider(height: 10, color: Colors.transparent),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Categoría",
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Divider(height: 20, color: Colors.transparent),
-                            Container(
-                              width: 280,
-                              child: CarouselSlider(
-                                carouselController: buttonCarouselController,
-                                options: CarouselOptions(
-                                  height: 90,
-                                  viewportFraction: 0.237,
-                                  aspectRatio: 16 / 9,
-                                  enlargeCenterPage: true,
-                                  initialPage: 0,
-                                  enableInfiniteScroll: true,
-                                  onPageChanged: (index, reason) {
-                                    setState(() {
-                                      nombreCategoria =
-                                          obtenerCategoria(index + 1);
-                                    });
-                                    changedExternalState();
-                                  },
-                                ),
-                                items:
-                                    obtenerListaItems("assets/images/3x3.png"),
-                              ),
-                            ),
-                            Text(
-                              "$nombreCategoria",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline4
-                                  .copyWith(fontWeight: FontWeight.w400),
-                              textScaleFactor: .7,
-                            ),
-                            Divider(height: 80, color: Colors.transparent),
-                            Container(
-                              height: 40,
-                              child: OutlineButton(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 110),
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0)),
+                              Material(
                                 color: Colors.transparent,
+                                child: InkWell(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: 55,
+                                      width: 55,
+                                      decoration: BoxDecoration(
+                                          color: Colors.transparent,
+                                          borderRadius:
+                                              BorderRadius.circular(16)),
+                                      child: Icon(
+                                        Icons.clear,
+                                        color: Colors.white,
+                                        size: 26,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    }),
+                              ),
+                            ],
+                          ),
+                          Divider(height: 45, color: Colors.transparent),
+                          Row(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 30,
                                 child: Text(
-                                  "CREAR",
+                                  "Nombre",
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline4
-                                      .copyWith(fontWeight: FontWeight.w600),
-                                  textScaleFactor: 1,
+                                      .copyWith(fontWeight: FontWeight.w500),
                                 ),
-                                onPressed: () {
-                                  print('Botón: CREAR oprimido');
+                              ),
+                              Divider(
+                                indent: 40,
+                              ),
+                              Container(
+                                height: 40,
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 30,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 0),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .tabBarTheme
+                                        .labelColor,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: TextField(
+                                    maxLines: 1,
+                                    minLines: 1,
+                                    textAlign: TextAlign.start,
+                                    decoration: InputDecoration(
+                                      hintText: "Nombre de sala",
+                                      border: InputBorder.none,
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Divider(height: 45, color: Colors.transparent),
+                          Row(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 30,
+                                child: Text(
+                                  "Descripción",
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Divider(
+                                indent: 40,
+                              ),
+                              Container(
+                                height: 95,
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 30,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 0),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .tabBarTheme
+                                        .labelColor,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: TextField(
+                                    maxLines: 4,
+                                    minLines: 1,
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.start,
+                                    decoration: InputDecoration(
+                                      hintText: "Descripción",
+                                      border: InputBorder.none,
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            color: Colors.transparent,
+                          ),
+                          Container(
+                            height: 40,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Divider(
+                              thickness: 1.6,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 128,
+                                child: Text(
+                                  "Contraseña",
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              Switch(
+                                value: conClave,
+                                onChanged: (value) {
+                                  setState(() {
+                                    conClave = value;
+                                    anchoCampoClave == 0
+                                        ? anchoCampoClave =
+                                            MediaQuery.of(context).size.width /
+                                                    2 -
+                                                30
+                                        : anchoCampoClave = 0;
+                                  });
+                                  changedExternalState();
                                 },
                               ),
+                              AnimatedContainer(
+                                duration: Duration(milliseconds: 350),
+                                curve: Curves.ease,
+                                height: 40,
+                                width: 1.0 * anchoCampoClave,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6, vertical: 0),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .tabBarTheme
+                                        .labelColor,
+                                    borderRadius: BorderRadius.circular(15)),
+                                child: TextField(
+                                    maxLines: 1,
+                                    minLines: 1,
+                                    obscureText: true,
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.start,
+                                    decoration: InputDecoration(
+                                      hintText: "Contraseña",
+                                      border: InputBorder.none,
+                                    )),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            height: 40,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Divider(
+                              thickness: 1.6,
                             ),
-                          ],
-                        ),
+                          ),
+                          Divider(height: 10, color: Colors.transparent),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "Categoría",
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4
+                                      .copyWith(fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(height: 20, color: Colors.transparent),
+                          Container(
+                            width: 280,
+                            child: CarouselSlider(
+                              carouselController: buttonCarouselController,
+                              options: CarouselOptions(
+                                height: 90,
+                                viewportFraction: 0.237,
+                                aspectRatio: 16 / 9,
+                                enlargeCenterPage: true,
+                                initialPage: 0,
+                                enableInfiniteScroll: true,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    nombreCategoria =
+                                        obtenerCategoria(index + 1);
+                                  });
+                                  changedExternalState();
+                                },
+                              ),
+                              items: obtenerListaItems("assets/images/3x3.png"),
+                            ),
+                          ),
+                          Text(
+                            "$nombreCategoria",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                .copyWith(fontWeight: FontWeight.w400),
+                            textScaleFactor: .7,
+                          ),
+                          Divider(height: 80, color: Colors.transparent),
+                          Container(
+                            height: 40,
+                            child: OutlineButton(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 110),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(30.0)),
+                              color: Colors.transparent,
+                              child: Text(
+                                "CREAR",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    .copyWith(fontWeight: FontWeight.w600),
+                                textScaleFactor: 1,
+                              ),
+                              onPressed: () {
+                                print('Botón: CREAR oprimido');
+                              },
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height / 10,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           );
         },

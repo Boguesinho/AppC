@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:sctproject/pages/pageCreacionSala.dart';
 
-class BusquedaSala extends StatefulWidget {
-  const BusquedaSala({Key key}) : super(key: key);
+class BusquedaEquipo extends StatefulWidget {
+  const BusquedaEquipo({Key key}) : super(key: key);
 
   @override
-  _busquedaSalaState createState() => _busquedaSalaState();
+  _busquedaEquipoState createState() => _busquedaEquipoState();
 }
 
-class _busquedaSalaState extends State<BusquedaSala> {
+class _busquedaEquipoState extends State<BusquedaEquipo> {
   Future _futureSalas;
   final scrollController = new ScrollController();
   final sc = new ScrollController();
@@ -37,12 +37,10 @@ class _busquedaSalaState extends State<BusquedaSala> {
     });
   }
 
-  String categoriaSala = "Rubik's Cube";
-  String anfitrionSala = "Alejandro Ortega";
-  String idiomaSala = "Español";
-  String tituloSala = "World Championship";
-  String descripcionSala =
-      "Para echar la reta con los panas cada vez que se pueda y todos los días de ser necesario pue";
+  String fechaCreacion = "01/09/2020";
+  String paisEquipo = "México";
+  String nombreEquipo = "GAN Team";
+  String descripcionEquipo = "Descripción del equipo en cuestión";
   List<Widget> listaSalas;
 
   int salaSeleccionada = -1;
@@ -74,29 +72,25 @@ class _busquedaSalaState extends State<BusquedaSala> {
         children: <Widget>[
           gradienteActivado
               ? Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                        Theme.of(context).backgroundColor,
-                        Theme.of(context).primaryColor
-                      ])),
+                  color: Theme.of(context).primaryColor,
                 )
               : Container(
                   color: Theme.of(context).scaffoldBackgroundColor,
                 ),
           ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.asset('assets/images/speedSala.png'),
-          ),
-          new BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-            child: new Container(
-              decoration:
-                  new BoxDecoration(color: Colors.white.withOpacity(0.0)),
-            ),
-          ),
+              borderRadius: BorderRadius.circular(35.0),
+              child: Container(
+                height: 190,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                      Theme.of(context).backgroundColor,
+                      Theme.of(context).primaryColor
+                    ])),
+              )),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -114,7 +108,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                     duration: Duration(milliseconds: 1000),
                     delay: Duration(milliseconds: 0),
                     child: Text(
-                      "¡Únete o crea una sala para competir!",
+                      "Equipos",
                       textScaleFactor: 1.3,
                       style: Theme.of(context)
                           .textTheme
@@ -176,7 +170,19 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 45,
+                    height: 38,
+                  ),
+                  Text(
+                    "Equipos recomendados",
+                    textScaleFactor: 1.3,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.w500),
+                  ),
+                  Divider(
+                    color: Color(0x00EBEBEB),
+                    height: 18,
                   ),
 
                   //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
@@ -388,7 +394,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
         data: temaElementoSala,
         child: ExpansionTile(
           title: Text(
-            '$tituloSala $indiceTarjeta',
+            '$nombreEquipo $indiceTarjeta',
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -398,7 +404,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
           ),
           childrenPadding: EdgeInsets.all(2),
           leading: Container(
-            width: 50,
+            width: 80,
             child: Row(
               children: [
                 tieneClave == true
@@ -413,10 +419,18 @@ class _busquedaSalaState extends State<BusquedaSala> {
                         size: 22,
                       ),
                 Divider(indent: 5),
-                Image(
-                  image: AssetImage('assets/images/3x3.png'),
-                  height: 21,
-                  width: 21,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Container(
+                    color: Colors.transparent,
+                    height: 50,
+                    width: 50,
+                    child: Image(
+                      image: AssetImage('assets/images/Gan.jpg'),
+                      height: 1000,
+                      width: 1000,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -433,7 +447,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               delay: Duration(milliseconds: 0),
               duration: Duration(milliseconds: 600),
               child: Text(
-                'Anfitrión',
+                'País',
                 style: Theme.of(context)
                     .textTheme
                     .headline6
@@ -449,7 +463,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 width: MediaQuery.of(context).size.width * .6,
                 alignment: Alignment.center,
                 child: Text(
-                  '$anfitrionSala',
+                  '$paisEquipo',
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
@@ -473,7 +487,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 delay: Duration(milliseconds: 150),
                 duration: Duration(milliseconds: 600),
                 child: Text(
-                  'Idioma',
+                  'Fecha de Creación',
                   style: Theme.of(context)
                       .textTheme
                       .headline6
@@ -490,7 +504,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 width: MediaQuery.of(context).size.width * .6,
                 alignment: Alignment.center,
                 child: Text(
-                  '$idiomaSala',
+                  '$fechaCreacion',
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
@@ -528,7 +542,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 delay: Duration(milliseconds: 300),
                 duration: Duration(milliseconds: 600),
                 child: Text(
-                  "$descripcionSala",
+                  "$descripcionEquipo",
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 5,
