@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class InformacionEquipo {
   bool _enEquipo = false;
-  String _nombreEquipo = "";
-  String _descripcionEquipo = "";
-  String _anfitrionEquipo = "";
+  int _cantidadMiembros = 27;
+  String _nombreEquipo = "Gan Rubik's Team";
+  String _descripcionEquipo = "For al Gan's members around the world";
+  String _anfitrionEquipo = "Gan";
+  String _fechaCreacion = "06/09/2020";
   Widget _imagenEquipo = Image(
     image: AssetImage('assets/images/Gan.jpg'),
     height: 1000,
@@ -18,11 +20,16 @@ class InformacionEquipo {
   String get nombreEquipo => _nombreEquipo;
   String get descripcionEquipo => _descripcionEquipo;
   Widget get imagenEquipo => _imagenEquipo;
+  int get cantidadMiembros => _cantidadMiembros;
 
   //SETTERS
 
   set setEnEquipo(bool enEquipo) {
     this._enEquipo = enEquipo;
+  }
+
+  set setCantidadMiembros(int cantidadMiembros) {
+    this._cantidadMiembros = cantidadMiembros;
   }
 
   set setNombreEquipo(String nombreEquipo) {

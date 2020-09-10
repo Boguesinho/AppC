@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sctproject/pages/pagePerfilUsuario.dart';
+import 'package:sctproject/pages/pageSala.dart';
+import 'package:sctproject/pages/pageTimer.dart';
 import 'package:sctproject/utils/theme.dart';
 
+import 'classes/informacionEquipo.dart';
+import 'classes/informacionSala.dart';
 import 'pages/pageBusquedaEquipo.dart';
 import 'pages/pageBusquedaSala.dart';
 import 'pages/pageChatEquipo.dart';
 import 'pages/pageConfiguracion.dart';
-import 'pages/pageTimerCubo.dart';
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -25,23 +28,31 @@ class Example extends StatefulWidget {
 class _ExampleState extends State<Example> {
   int _indicePagina = 2;
 
-  final ChatEquipo _chatEquipo = new ChatEquipo();
+  static InformacionEquipo _informacionEquipo = new InformacionEquipo();
+  static InformacionSala _informacionSala = new InformacionSala();
 
-  final BusquedaSala _busquedaSala = new BusquedaSala();
+  final ChatEquipo _chatEquipo = new ChatEquipo.constructor(_informacionEquipo);
+
+  final BusquedaSala _busquedaSala =
+      new BusquedaSala.constructor(_informacionSala);
+  final BusquedaEquipo _busquedaEquipo =
+      new BusquedaEquipo.constructor(_informacionEquipo);
+
   final Configuracion _configuracion = new Configuracion();
-  final BusquedaEquipo _busquedaEquipo = new BusquedaEquipo();
+
   final PerfilUsuario _perfilUsuario = new PerfilUsuario();
   final TimerCubo _timerCubo = new TimerCubo();
 
   Widget _mostrarPagina = TimerCubo();
 
   Widget _elegirPagina(int pagina) {
+    bool enEquipo = _informacionEquipo.enEquipo;
     switch (pagina) {
       case 0:
         return _perfilUsuario;
         break;
       case 1:
-        return _busquedaEquipo;
+        return enEquipo ? _chatEquipo : _busquedaEquipo;
         break;
       case 2:
         return _timerCubo;
@@ -73,13 +84,13 @@ class _ExampleState extends State<Example> {
             ]),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 7),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
             child: GNav(
                 gap: 12,
                 activeColor: Theme.of(context).primaryColor,
-                iconSize: 23,
-                padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                duration: Duration(milliseconds: 700),
+                iconSize: 18,
+                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                duration: Duration(milliseconds: 350),
                 tabBackgroundColor: Theme.of(context).backgroundColor,
                 tabs: [
                   GButton(

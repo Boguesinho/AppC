@@ -58,6 +58,8 @@ ThemeData basicTheme() {
       buttonColor: Color(0xe6ADADAD),
 
       //Segundo gradiente
+      //Azul Oscuro-: backgroundColor: Color(0xff2874A6),
+      //Azul claro: backgroundColor: Color(0xff5499C7),
       backgroundColor: Color(0xff2874A6),
       tabBarTheme: base.tabBarTheme.copyWith(
         labelColor: Color(0xffEBF5FB),

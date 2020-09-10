@@ -4,16 +4,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:sctproject/classes/informacionEquipo.dart';
 import 'package:sctproject/pages/pageCreacionSala.dart';
 
 class BusquedaEquipo extends StatefulWidget {
-  const BusquedaEquipo({Key key}) : super(key: key);
+  BusquedaEquipo({Key key}) : super(key: key);
+
+  InformacionEquipo _informacionEquipo = new InformacionEquipo();
+  BusquedaEquipo.constructor(InformacionEquipo informacionEquipo) {
+    this._informacionEquipo = informacionEquipo;
+  }
 
   @override
-  _busquedaEquipoState createState() => _busquedaEquipoState();
+  _busquedaEquipoState createState() =>
+      _busquedaEquipoState.constructorState(_informacionEquipo);
 }
 
 class _busquedaEquipoState extends State<BusquedaEquipo> {
+  InformacionEquipo _informacionEquipo = new InformacionEquipo();
+
+  _busquedaEquipoState.constructorState(InformacionEquipo informacionEquipo) {
+    this._informacionEquipo = informacionEquipo;
+  }
+
   Future _futureSalas;
   final scrollController = new ScrollController();
   final sc = new ScrollController();
@@ -27,7 +40,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
     super.initState();
     myList = List.generate(10, (i) => "Item : ${i + 1}");
 
-    _futureSalas = getSalas();
+    _futureSalas = getEquipos();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -54,7 +67,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
   bool agregandoSala = false;
 
   _getMoreData() {
-    _futureSalas = getSalas();
+    _futureSalas = getEquipos();
     for (int i = _currentMax; i < _currentMax + 10; i++) {
       myList.add("Item : ${i + 1}");
     }
@@ -344,7 +357,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Divider(
-                  height: 10,
+                  height: 20,
                   color: Colors.transparent,
                 ),
                 CupertinoActivityIndicator(),
@@ -359,7 +372,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
               crearElementoSala(context, index, index % 2 == 0 ? true : false),
               Divider(
                 color: Colors.transparent,
-                height: 45,
+                height: 60,
               ),
             ],
           ),
@@ -376,17 +389,21 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
         Theme.of(context).copyWith(dividerColor: Colors.grey);
 
     return Container(
-      padding: EdgeInsets.all(0),
+      padding: EdgeInsets.all(2),
       decoration: BoxDecoration(
-          color: Theme.of(context)
-              .tabBarTheme
-              .labelColor, //Fondo Tarjeta con transparencia
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.topRight,
+              colors: [
+                Theme.of(context).primaryColor,
+                Theme.of(context).backgroundColor.withOpacity(.9)
+              ]),
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 17),
-              blurRadius: 30,
-              spreadRadius: -23,
+              offset: Offset(0, 20),
+              blurRadius: 25,
+              spreadRadius: -20,
               color: Colors.black,
             )
           ]),
@@ -398,11 +415,11 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
-                .headline1
+                .headline4
                 .copyWith(fontWeight: FontWeight.w500),
-            textScaleFactor: 1.25,
+            textScaleFactor: .8,
           ),
-          childrenPadding: EdgeInsets.all(2),
+          childrenPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 2),
           leading: Container(
             width: 80,
             child: Row(
@@ -422,7 +439,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15.0),
                   child: Container(
-                    color: Colors.transparent,
+                    color: Theme.of(context).primaryColor,
                     height: 50,
                     width: 50,
                     child: Image(
@@ -470,7 +487,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
+                  textScaleFactor: .8,
                   maxLines: 1,
                 ),
               ),
@@ -511,7 +528,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
+                  textScaleFactor: .8,
                   maxLines: 1,
                 ),
               ),
@@ -550,7 +567,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                       .textTheme
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
-                  textScaleFactor: .7,
+                  textScaleFactor: .62,
                 ),
               ),
             ),
@@ -592,7 +609,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
               height: 10,
             ),
             Container(
-              height: 26,
+              height: 40,
               child: FadeIn(
                 delay: Duration(milliseconds: 600),
                 duration: Duration(milliseconds: 600),
@@ -611,12 +628,13 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                   ),
                   onPressed: () {
                     print('Tarjeta número $indiceTarjeta seleccionada');
+                    _informacionEquipo.setEnEquipo = true;
                   },
                 ),
               ),
             ),
             Divider(
-              height: 8,
+              height: 12,
             ),
           ],
         ),
@@ -629,7 +647,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
   }
 }
 
-Future<int> getSalas() async {
+Future<int> getEquipos() async {
   try {
     var uri = new Uri.https('dog.ceo', 'https//api/users?page=2');
     final resp = await http.get(uri);

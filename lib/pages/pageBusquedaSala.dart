@@ -4,16 +4,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:sctproject/classes/informacionSala.dart';
 import 'package:sctproject/pages/pageCreacionSala.dart';
+import 'package:sctproject/pages/pageSala.dart';
 
 class BusquedaSala extends StatefulWidget {
-  const BusquedaSala({Key key}) : super(key: key);
+  BusquedaSala({Key key}) : super(key: key);
+
+  InformacionSala _informacionSala = new InformacionSala();
+  BusquedaSala.constructor(InformacionSala informacionSala) {
+    this._informacionSala = informacionSala;
+  }
 
   @override
-  _busquedaSalaState createState() => _busquedaSalaState();
+  _busquedaSalaState createState() =>
+      _busquedaSalaState.constructorState(_informacionSala);
 }
 
 class _busquedaSalaState extends State<BusquedaSala> {
+  InformacionSala _informacionSala = new InformacionSala();
+
+  _busquedaSalaState.constructorState(InformacionSala informacionSala) {
+    this._informacionSala = informacionSala;
+  }
+
   Future _futureSalas;
   final scrollController = new ScrollController();
   final sc = new ScrollController();
@@ -597,6 +611,13 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   ),
                   onPressed: () {
                     print('Tarjeta número $indiceTarjeta seleccionada');
+                    _informacionSala.setEnSala = true;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Sala.constructor(_informacionSala)),
+                    );
                   },
                 ),
               ),
