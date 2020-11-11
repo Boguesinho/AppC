@@ -3,8 +3,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sctproject/classes/informacionSala.dart';
+import 'package:sctproject/classes/spHelper.dart';
 import 'package:sctproject/pages/pageCreacionSala.dart';
 import 'package:sctproject/pages/pageSala.dart';
 
@@ -39,6 +41,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
   @override
   void initState() {
     super.initState();
+
     myList = List.generate(10, (i) => "Item : ${i + 1}");
 
     _futureSalas = getSalas();
@@ -86,54 +89,62 @@ class _busquedaSalaState extends State<BusquedaSala> {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: <Widget>[
-          gradienteActivado
-              ? Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                        Theme.of(context).backgroundColor,
-                        Theme.of(context).primaryColor
-                      ])),
-                )
-              : Container(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                ),
+          Container(
+            color: Theme.of(context).primaryColor,
+          ),
           ClipRRect(
-            borderRadius: BorderRadius.circular(20.0),
-            child: Image.asset('assets/images/speedSala.png'),
-          ),
-          new BackdropFilter(
-            filter: new ImageFilter.blur(sigmaX: 1.8, sigmaY: 1.8),
-            child: new Container(
-              decoration:
-                  new BoxDecoration(color: Colors.white.withOpacity(0.0)),
-            ),
-          ),
+              borderRadius: BorderRadius.circular(35.0),
+              child: Container(
+                height: 190,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/speedC.png'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topRight,
-                  ),
                   Divider(
                     color: Color(0x00EBEBEB),
                     height: 25.0,
                   ),
                   FadeInDown(
-                    duration: Duration(milliseconds: 1000),
+                    duration: Duration(milliseconds: 500),
+                    from: 30,
                     delay: Duration(milliseconds: 0),
-                    child: Text(
-                      "¡Únete o crea una sala para competir!",
-                      textScaleFactor: 1.3,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.w900),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        // Stroked text as border.
+                        Text(
+                          'SALAS',
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.baiJamjuree().fontFamily,
+                            fontSize: 30,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 1
+                              ..color = Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'SALAS',
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.baiJamjuree().fontFamily,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Divider(
@@ -158,14 +169,30 @@ class _busquedaSalaState extends State<BusquedaSala> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                           decoration: BoxDecoration(
-                              color: Theme.of(context).tabBarTheme.labelColor,
-                              borderRadius: BorderRadius.circular(15)),
+                            color: Theme.of(context)
+                                .indicatorColor
+                                .withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           child: TextField(
-                              decoration: InputDecoration(
-                            icon: Icon(Icons.search),
-                            hintText: "Buscar salas",
-                            border: InputBorder.none,
-                          )),
+                            cursorColor: Theme.of(context).iconTheme.color,
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              icon: Icon(Icons.search,
+                                  color: opcionesBusquedaMaximizado
+                                      ? Colors.transparent
+                                      : Theme.of(context).iconTheme.color),
+                              hintText: "Buscar sala",
+                              border: InputBorder.none,
+                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                       Divider(
@@ -190,7 +217,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 45,
+                    height: 20,
                   ),
 
                   //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
@@ -263,8 +290,9 @@ class _busquedaSalaState extends State<BusquedaSala> {
               ? EdgeInsets.symmetric(horizontal: 0, vertical: 0)
               : EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
-              color: Theme.of(context).tabBarTheme.labelColor,
-              borderRadius: BorderRadius.circular(15)),
+            color: Theme.of(context).indicatorColor.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(15),
+          ),
           alignment: Alignment.topCenter,
           child: Column(
             children: [
@@ -317,7 +345,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                             duration: Duration(milliseconds: 400),
                             child: Icon(
                               Icons.tune,
-                              color: Colors.grey,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           ),
                         )
@@ -341,7 +369,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
 
   Widget mostrarSalas() {
     return ListView.builder(
-      shrinkWrap: true,
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       controller: _scrollController,
       itemBuilder: (context, index) {
         if (index == myList.length) {
@@ -386,15 +414,13 @@ class _busquedaSalaState extends State<BusquedaSala> {
     return Container(
       padding: EdgeInsets.all(0),
       decoration: BoxDecoration(
-          color: Theme.of(context)
-              .tabBarTheme
-              .labelColor, //Fondo Tarjeta con transparencia
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 17),
-              blurRadius: 30,
-              spreadRadius: -23,
+              offset: Offset(0, 20),
+              blurRadius: 15,
+              spreadRadius: -8,
               color: Colors.black,
             )
           ]),
@@ -450,10 +476,9 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 'Anfitrión',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.w700),
+                    .subtitle1
+                    .copyWith(fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
-                textScaleFactor: .9,
               ),
             ),
             FadeIn(
@@ -470,7 +495,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
+                  textScaleFactor: .8,
                   maxLines: 1,
                 ),
               ),
@@ -490,10 +515,9 @@ class _busquedaSalaState extends State<BusquedaSala> {
                   'Idioma',
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.w700),
+                      .subtitle1
+                      .copyWith(fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
                 ),
               ),
             ),
@@ -511,7 +535,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
+                  textScaleFactor: .8,
                   maxLines: 1,
                 ),
               ),
@@ -530,10 +554,9 @@ class _busquedaSalaState extends State<BusquedaSala> {
                 'Descripción',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.w700),
+                    .subtitle1
+                    .copyWith(fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
-                textScaleFactor: .9,
               ),
             ),
             Container(
@@ -550,7 +573,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
                       .textTheme
                       .headline3
                       .copyWith(fontWeight: FontWeight.w700),
-                  textScaleFactor: .7,
+                  textScaleFactor: .62,
                 ),
               ),
             ),
@@ -572,17 +595,32 @@ class _busquedaSalaState extends State<BusquedaSala> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                           decoration: BoxDecoration(
-                              color: Color(0x1a7d7d7d),
-                              borderRadius: BorderRadius.circular(30)),
+                            color: Theme.of(context)
+                                .indicatorColor
+                                .withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           child: TextField(
-                              textAlign: TextAlign.left,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                alignLabelWithHint: true,
-                                icon: Icon(Icons.vpn_key),
-                                hintText: "Escribir contraseña",
-                                border: InputBorder.none,
-                              )),
+                            cursorColor: Theme.of(context).iconTheme.color,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              alignLabelWithHint: true,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              icon: Icon(Icons.vpn_key,
+                                  color: opcionesBusquedaMaximizado
+                                      ? Colors.transparent
+                                      : Theme.of(context).iconTheme.color),
+                              hintText: "Contraseña",
+                              border: InputBorder.none,
+                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     )
@@ -592,12 +630,16 @@ class _busquedaSalaState extends State<BusquedaSala> {
               height: 10,
             ),
             Container(
-              height: 26,
+              height: 30,
               child: FadeIn(
                 delay: Duration(milliseconds: 600),
                 duration: Duration(milliseconds: 600),
                 child: OutlineButton(
                   padding: const EdgeInsets.symmetric(horizontal: 110),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).indicatorColor,
+                    width: .3,
+                  ),
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0)),
                   color: Colors.transparent,
@@ -623,7 +665,7 @@ class _busquedaSalaState extends State<BusquedaSala> {
               ),
             ),
             Divider(
-              height: 8,
+              height: 12,
             ),
           ],
         ),
@@ -637,9 +679,10 @@ class _busquedaSalaState extends State<BusquedaSala> {
 }
 
 Future<int> getSalas() async {
+  List listaSalas;
   try {
-    var uri = new Uri.https('dog.ceo', 'https//api/users?page=2');
-    final resp = await http.get(uri);
+    var response = await Dio().get('https://restcountries.eu/rest/v2/all');
+    listaSalas = response.data;
     return await Future.delayed(const Duration(milliseconds: 500));
   } catch (Exception) {
     return await Future.delayed(const Duration(milliseconds: 1000));

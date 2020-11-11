@@ -1,24 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:sctproject/pages/pageHistorial.dart';
 import 'package:sctproject/pages/pagePerfilUsuario.dart';
-import 'package:sctproject/pages/pageSala.dart';
 import 'package:sctproject/pages/pageTimer.dart';
-import 'package:sctproject/utils/theme.dart';
-
-import 'classes/informacionEquipo.dart';
-import 'classes/informacionSala.dart';
-import 'pages/pageBusquedaEquipo.dart';
+import 'bloc/tiempos_bloc.dart';
+import 'classes/spHelper.dart';
+import 'classes/tema.dart';
 import 'pages/pageBusquedaSala.dart';
-import 'pages/pageChatEquipo.dart';
 import 'pages/pageConfiguracion.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: basicTheme(),
-      home: Example(),
-    ));
+TemaCambio temaActual = TemaCambio();
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      SPHelper.setPref(sp);
+      runApp(MyApp());
+    });
+  });
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  MyAppState createState() {
+    return new MyAppState();
+  }
+
+  static TemaCambio getThemeObject() {
+    return temaActual;
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    temaActual.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<SolveBloc>(
+      create: (context) => SolveBloc(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: temaActual.temaActual(),
+        home: new Example(),
+      ),
+    );
+  }
+}
 
 class Example extends StatefulWidget {
   @override
@@ -26,109 +71,67 @@ class Example extends StatefulWidget {
 }
 
 class _ExampleState extends State<Example> {
+  PageController _pageController = new PageController();
+
   int _indicePagina = 2;
 
-  static InformacionEquipo _informacionEquipo = new InformacionEquipo();
-  static InformacionSala _informacionSala = new InformacionSala();
+  //final ChatEquipo _chatEquipo = new ChatEquipo.constructor(_informacionEquipo);
 
-  final ChatEquipo _chatEquipo = new ChatEquipo.constructor(_informacionEquipo);
-
-  final BusquedaSala _busquedaSala =
-      new BusquedaSala.constructor(_informacionSala);
-  final BusquedaEquipo _busquedaEquipo =
-      new BusquedaEquipo.constructor(_informacionEquipo);
-
-  final Configuracion _configuracion = new Configuracion();
-
-  final PerfilUsuario _perfilUsuario = new PerfilUsuario();
-  final TimerCubo _timerCubo = new TimerCubo();
-
-  Widget _mostrarPagina = TimerCubo();
-
-  Widget _elegirPagina(int pagina) {
-    bool enEquipo = _informacionEquipo.enEquipo;
-    switch (pagina) {
-      case 0:
-        return _perfilUsuario;
-        break;
-      case 1:
-        return enEquipo ? _chatEquipo : _busquedaEquipo;
-        break;
-      case 2:
-        return _timerCubo;
-        break;
-      case 3:
-        return _busquedaSala;
-        break;
-      case 4:
-        return _configuracion;
-        break;
-      default:
-        return new Container(
-          child: new Text(
-            'No se ha encontrado ninguna página',
-            textScaleFactor: 2,
-          ),
-        );
-    }
-  }
+  var _paginas = [
+    new PerfilUsuario(),
+    Historial(),
+    TimerCubo(),
+    Configuracion(),
+    BusquedaSala()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            boxShadow: [
-              BoxShadow(blurRadius: 30, color: Colors.black.withOpacity(.1))
-            ]),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-            child: GNav(
-                gap: 12,
-                activeColor: Theme.of(context).primaryColor,
-                iconSize: 18,
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                duration: Duration(milliseconds: 350),
-                tabBackgroundColor: Theme.of(context).backgroundColor,
-                tabs: [
-                  GButton(
-                    icon: LineIcons.user,
-                    text: 'Perfil',
-                  ),
-                  GButton(
-                    icon: LineIcons.group,
-                    text: 'Equipo',
-                  ),
-                  GButton(
-                    icon: Icons.timer,
-                    text: 'Timer',
-                  ),
-                  GButton(
-                    icon: Icons.dashboard,
-                    text: 'Salas',
-                  ),
-                  GButton(
-                    icon: LineIcons.bar_chart_o,
-                    text: 'Estadísticas',
-                  ),
-                ],
-                selectedIndex: _indicePagina,
-                onTabChange: (index) {
-                  setState(() {
-                    vibrate();
-                    _indicePagina = index;
-                    _mostrarPagina = _elegirPagina(index);
-                  });
-                }),
-          ),
+    return DefaultTabController(
+      length: 5,
+      child: new Scaffold(
+        bottomNavigationBar: AnimatedContainer(
+          duration: Duration(milliseconds: 600),
+          curve: Curves.ease,
+          height: 40,
+          child: new TabBar(
+              indicatorColor: Colors.transparent,
+              labelColor: Theme.of(context).iconTheme.color,
+              tabs: [
+                Tab(
+                  icon: new Icon(MdiIcons.account),
+                ),
+                Tab(
+                  icon: new Icon(MdiIcons.history),
+                ),
+                Tab(
+                  icon: new Icon(MdiIcons.timer),
+                ),
+                Tab(
+                  icon: new Icon(MdiIcons.chartArc),
+                ),
+                Tab(
+                  icon: new Icon(MdiIcons.cubeOutline),
+                ),
+              ],
+              onTap: (index) {
+                setState(() {
+                  vibrate();
+                  _indicePagina = index;
+                  _pageController.jumpToPage(_indicePagina);
+                });
+              }),
         ),
-      ),
-      body: Container(
-        child: Center(
-          child: _mostrarPagina,
-        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: PageView(
+            pageSnapping: true,
+            controller: _pageController,
+            children: _paginas,
+            onPageChanged: (index) {
+              setState(() {
+                _indicePagina = index;
+              });
+            }),
       ),
     );
   }

@@ -169,7 +169,7 @@ class _ChatEquipoState extends State<ChatEquipo> {
                               itemBuilder: (BuildContext context, int index) {
                                 final Message message = messages[index];
                                 final bool isMe =
-                                    message.sender.id == currentUser.id;
+                                    message.sender.id == usuarioActual.id;
                                 return _buildMessage(message, isMe);
                               },
                             ),

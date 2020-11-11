@@ -1,38 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sctproject/classes/tema.dart';
 
-class ConfiguracionCuenta extends StatefulWidget {
-  ConfiguracionCuenta({Key key}) : super(key: key);
-
-  @override
-  _ConfiguracionCuentaState createState() => _ConfiguracionCuentaState();
-}
-
-class _ConfiguracionCuentaState extends State<ConfiguracionCuenta> {
+class ConfiguracionCuenta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          Container(height: 40),
-          Container(
-            height: 45,
-            width: 80,
-            alignment: Alignment.bottomRight,
-            child: OutlineButton(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(25.0)),
-                color: Colors.transparent,
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Theme.of(context).iconTheme.color,
-                  size: 25,
+          ListView(
+            children: <Widget>[
+              Divider(color: Colors.transparent),
+              Divider(color: Colors.transparent),
+              ListTile(
+                title: Text("Tema de Aplicación"),
+                trailing: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: 70,
+                      height: 36.5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0) //
+                            ),
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue,
+                              Theme.of(context).primaryColor,
+                            ]),
+                      ),
+                    ),
+                  ],
                 ),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
+              ),
+              ListTile(
+                title: Text("Tema de Aplicación"),
+                trailing: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: 70,
+                      height: 36.5,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0) //
+                            ),
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue,
+                              Theme.of(context).primaryColor,
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),

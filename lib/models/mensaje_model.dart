@@ -17,71 +17,42 @@ class Message {
   });
 }
 
-// YOU - current user
-final User currentUser = User(
+// USUARIO ACTUAL(Mensaje propio)
+final User usuarioActual = User(
   id: 0,
-  name: 'Current User',
-  imageUrl: 'assets/images/greg.jpg',
+  name: 'Usuario actual',
+  imageUrl: 'assets/images/3x3.png',
 );
 
-// USERS
-final User greg = User(
+// USUARIOS
+final User paco = User(
   id: 1,
-  name: 'Greg',
-  imageUrl: 'assets/images/greg.jpg',
+  name: 'Paco',
+  imageUrl: 'assets/images/3x3.png',
 );
-final User james = User(
+final User pablo = User(
   id: 2,
-  name: 'James',
-  imageUrl: 'assets/images/james.jpg',
-);
-final User john = User(
-  id: 3,
-  name: 'John',
-  imageUrl: 'assets/images/john.jpg',
-);
-final User olivia = User(
-  id: 4,
-  name: 'Olivia',
-  imageUrl: 'assets/images/olivia.jpg',
-);
-final User sam = User(
-  id: 5,
-  name: 'Sam',
-  imageUrl: 'assets/images/sam.jpg',
-);
-final User sophia = User(
-  id: 6,
-  name: 'Sophia',
-  imageUrl: 'assets/images/sophia.jpg',
-);
-final User steven = User(
-  id: 7,
-  name: 'Steven',
-  imageUrl: 'assets/images/steven.jpg',
+  name: 'Pablo',
+  imageUrl: 'assets/images/3x3.png',
 );
 
-// FAVORITE CONTACTS
-List<User> favorites = [sam, steven, olivia, john, greg];
-
-// EXAMPLE MESSAGES IN CHAT SCREEN
 List<Message> messages = [
   Message(
-    sender: james,
+    sender: pablo,
     time: '5:30 PM',
     text: 'Mensaje de prueba número uno para ver el tamaño del mensaje',
     isLiked: true,
     unread: true,
   ),
   Message(
-    sender: currentUser,
+    sender: usuarioActual,
     time: '4:30 PM',
     text: 'Mensaje de prueba número dos para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '3:45 PM',
     text:
         'Mensaje de prueba número tres para ver el tamaño del mensaje Mensaje de prueba número uno para ver el tamaño del mensaje Mensaje de prueba número uno para ver el tamaño del mensajeMensaje de prueba número uno para ver el tamaño del mensaje Mensaje de prueba número uno para ver el tamaño del mensaje Mensaje de prueba número uno para ver el tamaño del mensaje',
@@ -89,70 +60,70 @@ List<Message> messages = [
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '3:15 PM',
     text: 'Mensaje de prueba número cuatro para ver el tamaño del mensaje',
     isLiked: true,
     unread: true,
   ),
   Message(
-    sender: currentUser,
+    sender: usuarioActual,
     time: '2:30 PM',
     text: 'Mensaje de prueba número cinco para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'Mensaje de prueba número seis para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'Mensaje de prueba número siete para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'Mensaje de prueba número ocho para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'Mensaje de prueba número nueve para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'Mensaje de prueba número diez para ver el tamaño del mensaje',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'sdas',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'sdas',
     isLiked: false,
     unread: true,
   ),
   Message(
-    sender: james,
+    sender: pablo,
     time: '2:00 PM',
     text: 'sdas',
     isLiked: false,

@@ -3,6 +3,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sctproject/classes/informacionSala.dart';
 
 class ElapsedTime {
@@ -65,7 +66,7 @@ class SalaState extends State<Sala> {
 
   String nombrePerfil = "Alejandro Ortega";
   String tiempoActual = "31.15";
-  String ao5Actual = "33.51";
+  String ao5Actual = "33.55";
   String ao12Actual = "0.0";
   String ao25Actual = "0.0";
   String ao50Actual = "0.0";
@@ -73,8 +74,8 @@ class SalaState extends State<Sala> {
   int posicionActual = 12;
   String media = "35.11";
 
-  int _cantidadParticipantes = 20;
-  double alturaAnimatedContainer = 62;
+  int _cantidadParticipantes = 13;
+  double alturaAnimatedContainer = 63;
 
   bool contenedorParticipantesExpandido = false;
 
@@ -678,6 +679,7 @@ class SalaState extends State<Sala> {
                             ),
                             Divider(
                                 height: 7,
+                                color: Colors.transparent,
                                 indent: 3,
                                 endIndent: 3,
                                 thickness: 1.2),
@@ -796,7 +798,7 @@ class SalaState extends State<Sala> {
                             contenedorParticipantesExpandido
                                 ? contenedorParticipantesExpandido = false
                                 : contenedorParticipantesExpandido = true;
-                            alturaAnimatedContainer = 62;
+                            alturaAnimatedContainer = 63;
                             vibrate();
                           });
                         },
@@ -1214,22 +1216,14 @@ class MinutesAndSecondsState extends State<MinutesAndSeconds> {
     if (!enMinutos) {
       return new Text(
         '$secondsStr.',
-        style: Theme.of(context)
-            .textTheme
-            .headline3
-            .copyWith(fontWeight: FontWeight.w400),
-        textScaleFactor: 3,
+        style: GoogleFonts.baiJamjuree(fontSize: 55),
       );
     }
 
     if (enMinutos) {
       return new Text(
         '$minutesStr:$secondsStr.',
-        style: Theme.of(context)
-            .textTheme
-            .headline3
-            .copyWith(fontWeight: FontWeight.w400),
-        textScaleFactor: 3,
+        style: GoogleFonts.baiJamjuree(fontSize: 55),
       );
     }
   }
@@ -1267,11 +1261,7 @@ class HundredsState extends State<Hundreds> {
     String hundredsStr = (hundreds % 100).toString().padLeft(2, '0');
     return new Text(
       hundredsStr,
-      style: Theme.of(context)
-          .textTheme
-          .headline3
-          .copyWith(fontWeight: FontWeight.w400),
-      textScaleFactor: 3,
+      style: GoogleFonts.baiJamjuree(fontSize: 55),
     );
   }
 }

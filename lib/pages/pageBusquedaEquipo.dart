@@ -3,7 +3,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sctproject/classes/informacionEquipo.dart';
 import 'package:sctproject/pages/pageCreacionSala.dart';
 
@@ -96,37 +97,53 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                 height: 190,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                      Theme.of(context).backgroundColor,
-                      Theme.of(context).primaryColor
-                    ])),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/fondo.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               )),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.topRight,
-                  ),
                   Divider(
                     color: Color(0x00EBEBEB),
                     height: 25.0,
                   ),
                   FadeInDown(
-                    duration: Duration(milliseconds: 1000),
+                    duration: Duration(milliseconds: 500),
+                    from: 30,
                     delay: Duration(milliseconds: 0),
-                    child: Text(
-                      "Equipos",
-                      textScaleFactor: 1.3,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.w900),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        // Stroked text as border.
+                        Text(
+                          'EQUIPOS',
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.baiJamjuree().fontFamily,
+                            fontSize: 30,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 1
+                              ..color = Colors.black,
+                          ),
+                        ),
+                        Text(
+                          'EQUIPOS',
+                          style: TextStyle(
+                            fontFamily: GoogleFonts.baiJamjuree().fontFamily,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Divider(
@@ -151,14 +168,30 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 3),
                           decoration: BoxDecoration(
-                              color: Theme.of(context).tabBarTheme.labelColor,
-                              borderRadius: BorderRadius.circular(15)),
+                            color: Theme.of(context)
+                                .indicatorColor
+                                .withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           child: TextField(
-                              decoration: InputDecoration(
-                            icon: Icon(Icons.search),
-                            hintText: "Buscar salas",
-                            border: InputBorder.none,
-                          )),
+                            cursorColor: Theme.of(context).iconTheme.color,
+                            decoration: InputDecoration(
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              icon: Icon(Icons.search,
+                                  color: opcionesBusquedaMaximizado
+                                      ? Colors.transparent
+                                      : Theme.of(context).iconTheme.color),
+                              hintText: "Buscar equipo",
+                              border: InputBorder.none,
+                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                       Divider(
@@ -183,10 +216,11 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 38,
+                    height: 10,
                   ),
                   Text(
                     "Equipos recomendados",
+                    textAlign: TextAlign.start,
                     textScaleFactor: 1.3,
                     style: Theme.of(context)
                         .textTheme
@@ -195,9 +229,8 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                   ),
                   Divider(
                     color: Color(0x00EBEBEB),
-                    height: 18,
+                    height: 10,
                   ),
-
                   //FUTURE BUILDER PARA INFORMACIÓN DE SALAS
                   Expanded(
                     child: FutureBuilder(
@@ -268,8 +301,9 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
               ? EdgeInsets.symmetric(horizontal: 0, vertical: 0)
               : EdgeInsets.symmetric(horizontal: 12, vertical: 11),
           decoration: BoxDecoration(
-              color: Theme.of(context).tabBarTheme.labelColor,
-              borderRadius: BorderRadius.circular(15)),
+            color: Theme.of(context).indicatorColor.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(15),
+          ),
           alignment: Alignment.topCenter,
           child: Column(
             children: [
@@ -322,7 +356,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                             duration: Duration(milliseconds: 400),
                             child: Icon(
                               Icons.tune,
-                              color: Colors.grey,
+                              color: Theme.of(context).iconTheme.color,
                             ),
                           ),
                         )
@@ -346,7 +380,7 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
 
   Widget mostrarSalas() {
     return ListView.builder(
-      shrinkWrap: true,
+      physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
       controller: _scrollController,
       itemBuilder: (context, index) {
         if (index == myList.length) {
@@ -391,19 +425,13 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
     return Container(
       padding: EdgeInsets.all(2),
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.topRight,
-              colors: [
-                Theme.of(context).primaryColor,
-                Theme.of(context).backgroundColor.withOpacity(.9)
-              ]),
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 20),
-              blurRadius: 25,
-              spreadRadius: -20,
+              offset: Offset(0, 15),
+              blurRadius: 8,
+              spreadRadius: -8,
               color: Colors.black,
             )
           ]),
@@ -467,10 +495,9 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                 'País',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.w700),
+                    .subtitle1
+                    .copyWith(fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
-                textScaleFactor: .9,
               ),
             ),
             FadeIn(
@@ -504,13 +531,12 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                 delay: Duration(milliseconds: 150),
                 duration: Duration(milliseconds: 600),
                 child: Text(
-                  'Fecha de Creación',
+                  'Fecha de creación',
                   style: Theme.of(context)
                       .textTheme
-                      .headline6
-                      .copyWith(fontWeight: FontWeight.w700),
+                      .subtitle1
+                      .copyWith(fontWeight: FontWeight.w500),
                   textAlign: TextAlign.left,
-                  textScaleFactor: .9,
                 ),
               ),
             ),
@@ -547,10 +573,9 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                 'Descripción',
                 style: Theme.of(context)
                     .textTheme
-                    .headline6
-                    .copyWith(fontWeight: FontWeight.w700),
+                    .subtitle1
+                    .copyWith(fontWeight: FontWeight.w500),
                 textAlign: TextAlign.left,
-                textScaleFactor: .9,
               ),
             ),
             Container(
@@ -589,32 +614,51 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
                           padding:
                               EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                           decoration: BoxDecoration(
-                              color: Color(0x1a7d7d7d),
-                              borderRadius: BorderRadius.circular(30)),
+                            color: Theme.of(context)
+                                .indicatorColor
+                                .withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                           child: TextField(
-                              textAlign: TextAlign.left,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                alignLabelWithHint: true,
-                                icon: Icon(Icons.vpn_key),
-                                hintText: "Escribir contraseña",
-                                border: InputBorder.none,
-                              )),
+                            cursorColor: Theme.of(context).iconTheme.color,
+                            obscureText: true,
+                            decoration: InputDecoration(
+                              alignLabelWithHint: true,
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .headline1
+                                  .copyWith(fontWeight: FontWeight.w500),
+                              icon: Icon(Icons.vpn_key,
+                                  color: opcionesBusquedaMaximizado
+                                      ? Colors.transparent
+                                      : Theme.of(context).iconTheme.color),
+                              hintText: "Contraseña",
+                              border: InputBorder.none,
+                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                .copyWith(fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     )
                   : Container(),
             ),
             Divider(
-              height: 10,
+              height: 15,
             ),
             Container(
-              height: 40,
+              height: 30,
               child: FadeIn(
                 delay: Duration(milliseconds: 600),
                 duration: Duration(milliseconds: 600),
                 child: OutlineButton(
                   padding: const EdgeInsets.symmetric(horizontal: 110),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).indicatorColor,
+                    width: .3,
+                  ),
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0)),
                   color: Colors.transparent,
@@ -649,8 +693,8 @@ class _busquedaEquipoState extends State<BusquedaEquipo> {
 
 Future<int> getEquipos() async {
   try {
-    var uri = new Uri.https('dog.ceo', 'https//api/users?page=2');
-    final resp = await http.get(uri);
+    var response = await Dio().get('https://restcountries.eu/rest/v2/all');
+    //print(response.data);
     return await Future.delayed(const Duration(milliseconds: 500));
   } catch (Exception) {
     return await Future.delayed(const Duration(milliseconds: 1000));
